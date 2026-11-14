@@ -25,123 +25,6 @@
 
     <!-- Babel Standalone for in-browser JSX compilation -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-    <style>
-      :root {
-        --bg-space: #070B14;
-        --panel-bg: rgba(14, 22, 41, 0.85);
-        --cyan-primary: #00E5FF;
-        --cyan-sky: #38BDF8;
-        --emerald-ok: #10B981;
-        --amber-warn: #F59E0B;
-        --red-alert: #EF4444;
-      }
-
-      body {
-        background-color: #070B14;
-        color: #F8FAFC;
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        overflow-x: hidden;
-        margin: 0;
-        padding: 0;
-      }
-
-      .font-display {
-        font-family: 'Barlow Condensed', sans-serif;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-      }
-
-      .font-mono-tech {
-        font-family: 'JetBrains Mono', monospace;
-        font-variant-numeric: tabular-nums;
-      }
-
-      .space-grid-bg {
-        background-color: #070B14;
-        background-image:
-          linear-gradient(to right, rgba(56, 189, 248, 0.04) 1px, transparent 1px),
-          linear-gradient(to bottom, rgba(56, 189, 248, 0.04) 1px, transparent 1px);
-        background-size: 44px 44px;
-      }
-
-      .glass-card {
-        background: rgba(14, 22, 41, 0.85);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(56, 189, 248, 0.25);
-        transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
-      }
-
-      .glass-card-selected {
-        background: rgba(14, 22, 41, 0.92);
-        backdrop-filter: blur(14px);
-        -webkit-backdrop-filter: blur(14px);
-        border: 1px solid #00E5FF;
-        box-shadow: 0 0 24px rgba(0, 229, 255, 0.28);
-      }
-
-      @keyframes shakeHorizontal {
-        0%, 100% { transform: translateX(0); }
-        20% { transform: translateX(-8px); }
-        40% { transform: translateX(8px); }
-        60% { transform: translateX(-6px); }
-        80% { transform: translateX(6px); }
-      }
-
-      .animate-shake {
-        animation: shakeHorizontal 0.42s ease-in-out;
-      }
-
-      @keyframes pulseRing {
-        0% { transform: scale(0.95); opacity: 0.9; }
-        70% { transform: scale(1.65); opacity: 0; }
-        100% { transform: scale(1.65); opacity: 0; }
-      }
-
-      .animate-beacon {
-        animation: pulseRing 2.2s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
-      }
-
-      input[type='range'].cyber-slider {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 100%;
-        height: 6px;
-        background: rgba(56, 189, 248, 0.18);
-        border-radius: 999px;
-        outline: none;
-      }
-
-      input[type='range'].cyber-slider::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 18px;
-        height: 18px;
-        border-radius: 50%;
-        background: #00E5FF;
-        border: 2px solid #070B14;
-        box-shadow: 0 0 12px rgba(0, 229, 255, 0.8);
-        cursor: pointer;
-        transition: transform 0.15s ease;
-      }
-
-      input[type='range'].cyber-slider::-webkit-slider-thumb:hover {
-        transform: scale(1.18);
-      }
-
-      ::-webkit-scrollbar {
-        width: 6px;
-        height: 6px;
-      }
-      ::-webkit-scrollbar-track {
-        background: rgba(7, 11, 20, 0.6);
-      }
-      ::-webkit-scrollbar-thumb {
-        background: rgba(56, 189, 248, 0.3);
-        border-radius: 999px;
-      }
-    </style>
   </head>
   <body>
     <div id="root"></div>
@@ -150,67 +33,321 @@
       const { useState, useEffect, useRef, useMemo, useCallback } = React;
 
       // ============================================================================
-      // INLINE SVG ICONS (Zero external icon dependency issues on GitHub Pages)
+      // INLINE SVG ICONS (Zero external bundler dependency for GitHub Pages)
       // ============================================================================
-      const IconMenu = ({ className = "w-5 h-5" }) => (
+      const IconBase = ({ className = "w-5 h-5", children }) => (
         <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <line x1="4" y1="6" x2="20" y2="6" /><line x1="4" y1="12" x2="20" y2="12" /><line x1="4" y1="18" x2="20" y2="18" />
+          {children}
         </svg>
       );
-      const IconX = ({ className = "w-4 h-4" }) => (
-        <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-        </svg>
-      );
-      const IconLock = ({ className = "w-4 h-4" }) => (
-        <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" />
-        </svg>
-      );
-      const IconCheck = ({ className = "w-3.5 h-3.5" }) => (
-        <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-          <polyline points="20 6 9 17 4 12" />
-        </svg>
-      );
-      const IconChevronsLeft = ({ className = "w-6 h-6" }) => (
-        <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <polyline points="11 17 6 12 11 7" /><polyline points="18 17 13 12 18 7" />
-        </svg>
-      );
-      const IconChevronsRight = ({ className = "w-6 h-6" }) => (
-        <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <polyline points="13 17 18 12 13 7" /><polyline points="6 17 11 12 6 7" />
-        </svg>
-      );
-      const IconAlertTriangle = ({ className = "w-4 h-4" }) => (
-        <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
-        </svg>
-      );
-      const IconRotateCcw = ({ className = "w-4 h-4" }) => (
-        <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" />
-        </svg>
-      );
-      const IconZoomIn = ({ className = "w-4 h-4" }) => (
-        <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /><line x1="11" y1="8" x2="11" y2="14" /><line x1="8" y1="11" x2="14" y2="11" />
-        </svg>
-      );
-      const IconZoomOut = ({ className = "w-4 h-4" }) => (
-        <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /><line x1="8" y1="11" x2="14" y2="11" />
-        </svg>
-      );
-      const IconCheckCircle2 = ({ className = "w-4 h-4" }) => (
-        <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" />
-        </svg>
-      );
-      const IconArrowRight = ({ className = "w-6 h-6" }) => (
-        <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-          <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
-        </svg>
+      const Menu = ({ className }) => <IconBase className={className}><line x1="4" y1="6" x2="20" y2="6" /><line x1="4" y1="12" x2="20" y2="12" /><line x1="4" y1="18" x2="20" y2="18" /></IconBase>;
+      const X = ({ className }) => <IconBase className={className}><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></IconBase>;
+      const Lock = ({ className }) => <IconBase className={className}><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></IconBase>;
+      const Check = ({ className }) => <IconBase className={className}><polyline points="20 6 9 17 4 12" /></IconBase>;
+      const ChevronsLeft = ({ className }) => <IconBase className={className}><polyline points="11 17 6 12 11 7" /><polyline points="18 17 13 12 18 7" /></IconBase>;
+      const ChevronsRight = ({ className }) => <IconBase className={className}><polyline points="13 17 18 12 13 7" /><polyline points="6 17 11 12 6 7" /></IconBase>;
+      const AlertTriangle = ({ className }) => <IconBase className={className}><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" /></IconBase>;
+      const RotateCcw = ({ className }) => <IconBase className={className}><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /></IconBase>;
+      const ZoomIn = ({ className }) => <IconBase className={className}><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /><line x1="11" y1="8" x2="11" y2="14" /><line x1="8" y1="11" x2="14" y2="11" /></IconBase>;
+      const ZoomOut = ({ className }) => <IconBase className={className}><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /><line x1="8" y1="11" x2="14" y2="11" /></IconBase>;
+      const CheckCircle2 = ({ className }) => <IconBase className={className}><circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" /></IconBase>;
+      const ArrowRight = ({ className }) => <IconBase className={className}><line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" /></IconBase>;
+      const Music = ({ className }) => <IconBase className={className}><path d="M9 18V5l12-2v13" /><circle cx="6" cy="18" r="3" /><circle cx="18" cy="16" r="3" /></IconBase>;
+
+      // ============================================================================
+      // WEB AUDIO API SOUND ENGINE
+      // ============================================================================
+      const SoundEngine = (() => {
+        let ctx = null;
+        let bgmInterval = null;
+        let isBgmPlaying = false;
+
+        const getCtx = () => {
+          if (!ctx) {
+            ctx = new (window.AudioContext || window.webkitAudioContext)();
+          }
+          if (ctx.state === 'suspended') {
+            ctx.resume();
+          }
+          return ctx;
+        };
+
+        return {
+          toggleBGM: (enable) => {
+            try {
+              if (!enable) {
+                if (bgmInterval) clearInterval(bgmInterval);
+                isBgmPlaying = false;
+                return;
+              }
+              if (isBgmPlaying) return;
+              isBgmPlaying = true;
+              const context = getCtx();
+              let step = 0;
+
+              const notes = [
+                261.63, 329.63, 392.00, 523.25,
+                349.23, 440.00, 523.25, 698.46,
+                392.00, 493.88, 587.33, 783.99,
+                349.23, 440.00, 523.25, 698.46
+              ];
+
+              bgmInterval = setInterval(() => {
+                if (context.state === 'suspended') context.resume();
+                const t = context.currentTime;
+                const freq = notes[step % notes.length];
+
+                const osc = context.createOscillator();
+                const gain = context.createGain();
+
+                const delay = context.createDelay();
+                delay.delayTime.value = 0.25;
+                const feedback = context.createGain();
+                feedback.gain.value = 0.25;
+                delay.connect(feedback);
+                feedback.connect(delay);
+                gain.connect(delay);
+                delay.connect(context.destination);
+
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(freq, t);
+                gain.gain.setValueAtTime(0.015, t);
+                gain.gain.exponentialRampToValueAtTime(0.001, t + 0.15);
+
+                osc.connect(gain);
+                gain.connect(context.destination);
+                osc.start(t);
+                osc.stop(t + 0.15);
+
+                if (step % 4 === 0) {
+                  const bassOsc = context.createOscillator();
+                  const bassGain = context.createGain();
+                  bassOsc.type = 'sawtooth';
+                  bassOsc.frequency.setValueAtTime(freq / 4, t);
+                  bassGain.gain.setValueAtTime(0.025, t);
+                  bassGain.gain.exponentialRampToValueAtTime(0.001, t + 0.35);
+                  bassOsc.connect(bassGain);
+                  bassGain.connect(context.destination);
+                  bassOsc.start(t);
+                  bassOsc.stop(t + 0.35);
+                }
+
+                step++;
+              }, 140);
+            } catch (e) {
+              console.warn("BGM initialization failed", e);
+            }
+          },
+          playBeep: () => {
+            try {
+              const context = getCtx();
+              const osc = context.createOscillator();
+              const gain = context.createGain();
+              osc.connect(gain);
+              gain.connect(context.destination);
+              osc.type = 'sine';
+              osc.frequency.setValueAtTime(880, context.currentTime);
+              gain.gain.setValueAtTime(0.08, context.currentTime);
+              gain.gain.exponentialRampToValueAtTime(0.001, context.currentTime + 0.1);
+              osc.start(context.currentTime);
+              osc.stop(context.currentTime + 0.1);
+            } catch (e) {}
+          },
+          playIgnition: () => {
+            try {
+              const context = getCtx();
+              const osc = context.createOscillator();
+              const gain = context.createGain();
+              osc.connect(gain);
+              gain.connect(context.destination);
+              osc.type = 'sawtooth';
+              osc.frequency.setValueAtTime(45, context.currentTime);
+              osc.frequency.exponentialRampToValueAtTime(15, context.currentTime + 4);
+              gain.gain.setValueAtTime(0.25, context.currentTime);
+              gain.gain.linearRampToValueAtTime(0.001, context.currentTime + 4);
+              osc.start(context.currentTime);
+              osc.stop(context.currentTime + 4);
+
+              const bufferSize = context.sampleRate * 4;
+              const buffer = context.createBuffer(1, bufferSize, context.sampleRate);
+              const data = buffer.getChannelData(0);
+              for (let i = 0; i < bufferSize; i++) {
+                data[i] = Math.random() * 2 - 1;
+              }
+              const noise = context.createBufferSource();
+              noise.buffer = buffer;
+              const noiseFilter = context.createBiquadFilter();
+              noiseFilter.type = 'lowpass';
+              noiseFilter.frequency.value = 350;
+              const noiseGain = context.createGain();
+              noiseGain.gain.setValueAtTime(0.2, context.currentTime);
+              noiseGain.gain.linearRampToValueAtTime(0, context.currentTime + 4);
+
+              noise.connect(noiseFilter);
+              noiseFilter.connect(noiseGain);
+              noiseGain.connect(context.destination);
+              noise.start(context.currentTime);
+            } catch (e) {}
+          },
+          playClick: () => {
+            try {
+              const context = getCtx();
+              const osc = context.createOscillator();
+              const gain = context.createGain();
+              osc.connect(gain);
+              gain.connect(context.destination);
+              osc.type = 'sine';
+              osc.frequency.setValueAtTime(1200, context.currentTime);
+              osc.frequency.exponentialRampToValueAtTime(300, context.currentTime + 0.05);
+              gain.gain.setValueAtTime(0.03, context.currentTime);
+              gain.gain.exponentialRampToValueAtTime(0.001, context.currentTime + 0.05);
+              osc.start(context.currentTime);
+              osc.stop(context.currentTime + 0.05);
+            } catch (e) {}
+          },
+          playSuccess: () => {
+            try {
+              const context = getCtx();
+              const osc = context.createOscillator();
+              const gain = context.createGain();
+              osc.connect(gain);
+              gain.connect(context.destination);
+              osc.type = 'sine';
+
+              osc.frequency.setValueAtTime(523.25, context.currentTime);
+              osc.frequency.setValueAtTime(659.25, context.currentTime + 0.1);
+              osc.frequency.setValueAtTime(783.99, context.currentTime + 0.2);
+              osc.frequency.setValueAtTime(1046.50, context.currentTime + 0.3);
+
+              gain.gain.setValueAtTime(0.1, context.currentTime);
+              gain.gain.linearRampToValueAtTime(0, context.currentTime + 1);
+              osc.start(context.currentTime);
+              osc.stop(context.currentTime + 1);
+            } catch (e) {}
+          }
+        };
+      })();
+
+      // ============================================================================
+      // GLOBAL STYLES INJECTION
+      // ============================================================================
+      const FontAndStyleInjector = () => (
+        <style>{`
+          :root {
+            --bg-space: #070B14;
+            --panel-bg: rgba(14, 22, 41, 0.85);
+            --cyan-primary: #00E5FF;
+            --cyan-sky: #38BDF8;
+            --emerald-ok: #10B981;
+            --amber-warn: #F59E0B;
+            --red-alert: #EF4444;
+          }
+
+          body {
+            background-color: #070B14;
+            color: #F8FAFC;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+          }
+
+          .font-display {
+            font-family: 'Barlow Condensed', sans-serif;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+          }
+
+          .font-mono-tech {
+            font-family: 'JetBrains Mono', monospace;
+            font-variant-numeric: tabular-nums;
+          }
+
+          .space-grid-bg {
+            background-color: #070B14;
+            background-image:
+              linear-gradient(to right, rgba(56, 189, 248, 0.04) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(56, 189, 248, 0.04) 1px, transparent 1px);
+            background-size: 44px 44px;
+          }
+
+          .glass-card {
+            background: rgba(14, 22, 41, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+          }
+
+          .glass-card-selected {
+            background: rgba(14, 22, 41, 0.92);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid #00E5FF;
+            box-shadow: 0 0 24px rgba(0, 229, 255, 0.28);
+          }
+
+          @keyframes shakeHorizontal {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            60% { transform: translateX(-6px); }
+            80% { transform: translateX(6px); }
+          }
+
+          .animate-shake {
+            animation: shakeHorizontal 0.42s ease-in-out;
+          }
+
+          @keyframes pulseRing {
+            0% { transform: scale(0.95); opacity: 0.9; }
+            70% { transform: scale(1.65); opacity: 0; }
+            100% { transform: scale(1.65); opacity: 0; }
+          }
+
+          .animate-beacon {
+            animation: pulseRing 2.2s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+          }
+
+          input[type='range'].cyber-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            background: rgba(56, 189, 248, 0.18);
+            border-radius: 999px;
+            outline: none;
+          }
+
+          input[type='range'].cyber-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #00E5FF;
+            border: 2px solid #070B14;
+            box-shadow: 0 0 12px rgba(0, 229, 255, 0.8);
+            cursor: pointer;
+            transition: transform 0.15s ease;
+          }
+
+          input[type='range'].cyber-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.18);
+          }
+
+          ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+          }
+          ::-webkit-scrollbar-track {
+            background: rgba(7, 11, 20, 0.6);
+          }
+          ::-webkit-scrollbar-thumb {
+            background: rgba(56, 189, 248, 0.3);
+            border-radius: 999px;
+          }
+        `}</style>
       );
 
       // ============================================================================
@@ -1442,7 +1579,7 @@
       };
 
       // ============================================================================
-      // ACT 6B: TRANSLUNAR TRANSFER CUTSCENE WITH CUSTOM BUILT SPACECRAFT MODEL
+      // ACT 6B: TRANSLUNAR TRANSFER CUTSCENE WITH T-10 COUNTDOWN & SOUND ENGINE
       // ============================================================================
       const LunarTransferCutscene = ({
         rocket,
@@ -1454,7 +1591,7 @@
         isOverweight,
         onComplete
       }) => {
-        const [countdown, setCountdown] = useState(5);
+        const [countdown, setCountdown] = useState(10);
         const [phaseLabel, setPhaseLabel] = useState('PRE-IGNITION');
         const [progress, setProgress] = useState(0);
         const [activeBeat, setActiveBeat] = useState(null);
@@ -1507,9 +1644,18 @@
 
         useEffect(() => {
           if (countdown <= 0) return;
+
+          SoundEngine.playBeep();
+
           const t = setTimeout(() => {
-            setCountdown((c) => c - 1);
-          }, 650);
+            setCountdown((c) => {
+              const next = c - 1;
+              if (next === 0) {
+                SoundEngine.playIgnition();
+              }
+              return next;
+            });
+          }, 1000);
           return () => clearTimeout(t);
         }, [countdown]);
 
@@ -1665,7 +1811,7 @@
                     TERMINAL COUNTDOWN // {rocket.name}
                   </div>
                   <div className="font-display text-7xl sm:text-8xl font-extrabold text-white tracking-wider">
-                    T-0{countdown}
+                    T-{String(countdown).padStart(2, '0')}
                   </div>
                 </div>
               )}
@@ -1734,7 +1880,7 @@
                     <circle r="22" fill="rgba(0, 229, 255, 0.12)" stroke="rgba(0, 229, 255, 0.35)" strokeWidth="0.8" strokeDasharray="3 2" />
                     <polygon points="-13,-3 -27,0 -13,3" fill="#38BDF8" opacity="0.85" />
                     {solar?.id !== 'bodymount' && (
-                      <React.Fragment>
+                      <>
                         <rect
                           x="-4"
                           y={hasDeployableSolar ? '-23' : '-17'}
@@ -1755,21 +1901,21 @@
                           stroke="#38BDF8"
                           strokeWidth="1"
                         />
-                      </React.Fragment>
+                      </>
                     )}
                     <rect x="-10" y="-8" width="20" height="16" rx="2.5" fill="#F59E0B" stroke="#FEF08A" strokeWidth="1" />
                     {isRover ? (
-                      <React.Fragment>
+                      <>
                         <circle cx="-6" cy="-10" r="2.6" fill="#0F172A" stroke="#94A3B8" strokeWidth="1" />
                         <circle cx="6" cy="-10" r="2.6" fill="#0F172A" stroke="#94A3B8" strokeWidth="1" />
                         <circle cx="-6" cy="10" r="2.6" fill="#0F172A" stroke="#94A3B8" strokeWidth="1" />
                         <circle cx="6" cy="10" r="2.6" fill="#0F172A" stroke="#94A3B8" strokeWidth="1" />
-                      </React.Fragment>
+                      </>
                     ) : (
-                      <React.Fragment>
+                      <>
                         <line x1="-8" y1="-8" x2="-13" y2="-13" stroke="#E2E8F0" strokeWidth="1.4" />
                         <line x1="-8" y1="8" x2="-13" y2="13" stroke="#E2E8F0" strokeWidth="1.4" />
-                      </React.Fragment>
+                      </>
                     )}
                     {hasHighGain ? (
                       <path d="M 10,-6 Q 16,0 10,6" fill="none" stroke="#F8FAFC" strokeWidth="1.8" />
@@ -2260,7 +2406,7 @@
                 className="w-8 h-8 rounded-lg bg-[#070B14]/85 border border-cyan-500/30 hover:border-cyan-400 flex items-center justify-center text-cyan-300"
                 title="Zoom In"
               >
-                <IconZoomIn className="w-4 h-4" />
+                <ZoomIn className="w-4 h-4" />
               </button>
               <button
                 onClick={() => {
@@ -2269,14 +2415,14 @@
                 className="w-8 h-8 rounded-lg bg-[#070B14]/85 border border-cyan-500/30 hover:border-cyan-400 flex items-center justify-center text-cyan-300"
                 title="Zoom Out"
               >
-                <IconZoomOut className="w-4 h-4" />
+                <ZoomOut className="w-4 h-4" />
               </button>
               <button
                 onClick={() => focusSite(selectedSiteId)}
                 className="w-8 h-8 rounded-lg bg-[#070B14]/85 border border-cyan-500/30 hover:border-cyan-400 flex items-center justify-center text-cyan-300"
                 title="Reset Camera"
               >
-                <IconRotateCcw className="w-4 h-4" />
+                <RotateCcw className="w-4 h-4" />
               </button>
             </div>
           </div>
@@ -2306,2676 +2452,4 @@
           const container = containerRef.current;
           if (!container) return;
           const width = container.clientWidth || 900;
-          const height = container.clientHeight || 520;
-
-          const scene = new THREE.Scene();
-          const camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 100);
-          camera.position.set(4.6, 2.7, 5.4);
-          camera.lookAt(0, 1.0, 0);
-
-          const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-          renderer.setSize(width, height);
-          renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-          renderer.setClearColor(0x000000, 0);
-          renderer.domElement.style.width = '100%';
-          renderer.domElement.style.height = '100%';
-          renderer.domElement.style.display = 'block';
-          container.innerHTML = '';
-          container.appendChild(renderer.domElement);
-
-          scene.add(new THREE.HemisphereLight(0xffffff, 0x334155, 1.15));
-          const sun = new THREE.DirectionalLight(0xffffff, 2.35);
-          sun.position.set(8, 3.0, 4);
-          scene.add(sun);
-
-          const groundGeo = new THREE.PlaneGeometry(26, 26, 68, 68);
-          groundGeo.rotateX(-Math.PI / 2);
-          const posAttr = groundGeo.attributes.position;
-          for (let i = 0; i < posAttr.count; i++) {
-            const x = posAttr.getX(i);
-            const z = posAttr.getZ(i);
-            const dist = Math.sqrt((x - 2.4) * (x - 2.4) + (z + 1.8) * (z + 1.8));
-            let y = Math.sin(x * 0.7) * Math.cos(z * 0.7) * 0.12;
-            if (dist < 2.6) {
-              y -= Math.cos((dist / 2.6) * (Math.PI / 2)) * 0.65;
-            }
-            posAttr.setY(i, y);
-          }
-          groundGeo.computeVertexNormals();
-          const ground = new THREE.Mesh(
-            groundGeo,
-            new THREE.MeshStandardMaterial({ color: 0x64748b, roughness: 0.9, metalness: 0.08, flatShading: true })
-          );
-          scene.add(ground);
-
-          const boulderMat = new THREE.MeshStandardMaterial({ color: 0x475569, roughness: 0.92, flatShading: true });
-          [
-            [-2.1, 0.06, 1.6, 0.22],
-            [2.4, 0.05, 1.4, 0.18],
-            [-1.5, 0.06, -2.2, 0.26],
-            [3.1, 0.04, -0.8, 0.16]
-          ].forEach(([bx, by, bz, br]) => {
-            const rock = new THREE.Mesh(new THREE.DodecahedronGeometry(br, 0), boulderMat);
-            rock.position.set(bx, by, bz);
-            scene.add(rock);
-          });
-
-          const padRing = new THREE.Mesh(
-            new THREE.RingGeometry(0.95, 1.08, 48),
-            new THREE.MeshBasicMaterial({ color: 0x00e5ff, side: THREE.DoubleSide })
-          );
-          padRing.rotation.x = -Math.PI / 2;
-          padRing.position.y = 0.04;
-          scene.add(padRing);
-
-          const lander = buildConfiguredSpacecraftMesh({
-            platform,
-            structure,
-            solar,
-            battery,
-            antenna,
-            instruments
-          });
-
-          const plume = new THREE.Mesh(
-            new THREE.ConeGeometry(0.28, 1.4, 24),
-            new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.76 })
-          );
-          plume.rotation.x = Math.PI;
-          plume.position.y = -1.05;
-          lander.add(plume);
-
-          lander.position.y = 4.3;
-          scene.add(lander);
-
-          const dustCount = 95;
-          const dustMeshes = [];
-          const dustMat = new THREE.MeshBasicMaterial({ color: 0xcbd5e1, transparent: true, opacity: 0.58 });
-          for (let i = 0; i < dustCount; i++) {
-            const p = new THREE.Mesh(new THREE.SphereGeometry(0.045, 8, 8), dustMat);
-            p.visible = false;
-            scene.add(p);
-            dustMeshes.push({
-              mesh: p,
-              angle: (i / dustCount) * Math.PI * 2 + Math.random() * 0.3,
-              speed: 1.5 + Math.random() * 2.5,
-              phase: Math.random()
-            });
-          }
-
-          const handleResize = () => {
-            if (!container) return;
-            const w = container.clientWidth;
-            const h = container.clientHeight;
-            if (w > 0 && h > 0) {
-              camera.aspect = w / h;
-              camera.updateProjectionMatrix();
-              renderer.setSize(w, h, false);
-            }
-          };
-          const resizeObserver = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(handleResize) : null;
-          if (resizeObserver) resizeObserver.observe(container);
-          window.addEventListener('resize', handleResize);
-
-          let animId;
-          const startTime = performance.now();
-          const totalDuration = 6.2;
-          const touchdownY = platform?.id === 'viper' ? 0.54 : 0.56;
-
-          const animate = (now) => {
-            animId = requestAnimationFrame(animate);
-            const elapsed = (now - startTime) / 1000;
-            const ratio = Math.min(1, elapsed / totalDuration);
-            const eased = 1 - Math.pow(1 - ratio, 2.2);
-
-            const currentY = 4.3 * (1 - eased) + touchdownY;
-            lander.position.y = currentY;
-            lander.rotation.y = (1 - eased) * 0.65;
-
-            const altMeters = Math.max(0, Math.round(420 * (1 - eased)));
-            const velMs = Math.max(0, Number(((1 - eased) * 28.4 + (ratio < 0.98 ? 0.6 : 0)).toFixed(1)));
-            setAltitude(altMeters);
-            setVelocity(velMs);
-
-            if (ratio < 0.42) {
-              setStatusMsg('POWERED DESCENT INITIATED...');
-            } else if (ratio < 0.88) {
-              setStatusMsg('PLUME SURFACE INTERACTION - DUST KICKUP');
-            } else {
-              setStatusMsg(
-                isHardLanding
-                  ? 'ROUGH TOUCHDOWN - SUSPENSION STRESSED'
-                  : `SOFT TOUCHDOWN CONFIRMED - ${landingSite.name.toUpperCase()}`
-              );
-            }
-
-            if (ratio < 0.95) {
-              plume.visible = true;
-              plume.scale.set(1 + Math.sin(elapsed * 45) * 0.12, 0.85 + Math.cos(elapsed * 55) * 0.2, 1);
-            } else {
-              plume.visible = false;
-            }
-
-            if (currentY < 1.95 && ratio < 0.98) {
-              dustMeshes.forEach((d) => {
-                d.mesh.visible = true;
-                const tDust = (elapsed * 1.4 + d.phase) % 1;
-                const r = 0.32 + tDust * d.speed * 1.3;
-                d.mesh.position.set(Math.cos(d.angle) * r, 0.06 + Math.sin(tDust * Math.PI) * 0.35, Math.sin(d.angle) * r);
-                d.mesh.scale.setScalar(0.5 + tDust * 1.2);
-              });
-            } else {
-              dustMeshes.forEach((d) => {
-                d.mesh.visible = false;
-              });
-            }
-
-            const camAngle = 0.68 + elapsed * 0.24;
-            const camRadius = 6.6 - eased * 1.15;
-            camera.position.set(
-              Math.sin(camAngle) * camRadius,
-              1.75 + (1 - eased) * 1.45,
-              Math.cos(camAngle) * camRadius
-            );
-            camera.lookAt(0, Math.max(0.55, currentY * 0.6), 0);
-            renderer.render(scene, camera);
-
-            if (elapsed >= totalDuration + 1.1) {
-              cancelAnimationFrame(animId);
-              onTouchdownComplete();
-            }
-          };
-
-          animId = requestAnimationFrame(animate);
-
-          return () => {
-            cancelAnimationFrame(animId);
-            if (resizeObserver) resizeObserver.disconnect();
-            window.removeEventListener('resize', handleResize);
-            renderer.dispose();
-          };
-        }, [platform, structure, solar, battery, antenna, instruments, landingSite, isHardLanding, onTouchdownComplete]);
-
-        return (
-          <div className="relative w-full max-w-6xl mx-auto px-4 pt-3 pb-6">
-            <div className="relative glass-card rounded-2xl overflow-hidden h-[460px] sm:h-[520px]">
-              <div ref={containerRef} className="w-full h-full" />
-
-              <div className="absolute bottom-5 left-1/2 -translate-x-1/2 w-[92%] max-w-2xl bg-[#070B14]/88 backdrop-blur-md border border-cyan-400/50 rounded-xl px-5 py-3.5 flex flex-wrap items-center justify-between gap-3 shadow-[0_0_24px_rgba(0,229,255,0.22)]">
-                <div className="flex items-center gap-2.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping" />
-                  <span className="font-mono-tech text-xs sm:text-sm font-bold text-cyan-300">
-                    {statusMsg}
-                  </span>
-                </div>
-                <div className="flex items-center gap-4 font-mono-tech text-xs">
-                  <div>
-                    <span className="text-slate-400">ALT: </span>
-                    <span className="text-white font-bold">{altitude} m</span>
-                  </div>
-                  <div>
-                    <span className="text-slate-400">VEL: </span>
-                    <span className="text-emerald-400 font-bold">{velocity} m/s</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-      };
-
-      // ============================================================================
-      // ACT 7: FULLSCREEN 3D LUNAR SURFACE EXPLORATION WITH BUILT 3D SPACECRAFT
-      // ============================================================================
-      const SurfaceOps3D = ({
-        platform,
-        structure,
-        solar,
-        battery,
-        antenna,
-        equippedInstruments,
-        landingSite,
-        onGenerateReport
-      }) => {
-        const [opsStep, setOpsStep] = useState('SELECT');
-        const [selectedInstId, setSelectedInstId] = useState(equippedInstruments[0] || 'camera');
-        const [collectPct, setCollectPct] = useState(0);
-
-        const opsStepRef = useRef(opsStep);
-        opsStepRef.current = opsStep;
-        const selectedInstRef = useRef(selectedInstId);
-        selectedInstRef.current = selectedInstId;
-
-        const containerRef = useRef(null);
-
-        const availableInstruments = useMemo(
-          () => SUBSYSTEMS.instruments.filter((inst) => equippedInstruments.includes(inst.id)),
-          [equippedInstruments]
-        );
-
-        useEffect(() => {
-          if (opsStep === 'MOVING') {
-            const t = setTimeout(() => {
-              setOpsStep('READY_COLLECT');
-            }, 2400);
-            return () => clearTimeout(t);
-          }
-          if (opsStep === 'COLLECTING') {
-            setCollectPct(0);
-            const start = performance.now();
-            const dur = 4600;
-            const interval = setInterval(() => {
-              const p = Math.min(100, Math.round(((performance.now() - start) / dur) * 100));
-              setCollectPct(p);
-              if (p >= 100) {
-                clearInterval(interval);
-                setOpsStep('COMPLETE');
-              }
-            }, 80);
-            return () => clearInterval(interval);
-          }
-        }, [opsStep]);
-
-        useEffect(() => {
-          const container = containerRef.current;
-          if (!container) return;
-          const width = container.clientWidth || 1000;
-          const height = container.clientHeight || 560;
-
-          const scene = new THREE.Scene();
-          const camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 120);
-          camera.position.set(3.8, 1.95, 4.4);
-          camera.lookAt(0.2, 0.55, 0);
-
-          const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-          renderer.setSize(width, height);
-          renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-          renderer.setClearColor(0x000000, 0);
-          renderer.domElement.style.width = '100%';
-          renderer.domElement.style.height = '100%';
-          renderer.domElement.style.display = 'block';
-          container.innerHTML = '';
-          container.appendChild(renderer.domElement);
-
-          scene.add(new THREE.HemisphereLight(0xe2e8f0, 0x1e293b, 0.9));
-          const polarSun = new THREE.DirectionalLight(0xffffff, 2.4);
-          polarSun.position.set(10, 2.5, 3);
-          scene.add(polarSun);
-
-          const earthSphere = new THREE.Mesh(
-            new THREE.SphereGeometry(0.42, 24, 24),
-            new THREE.MeshBasicMaterial({ color: 0x38bdf8 })
-          );
-          earthSphere.position.set(-7.5, 4.4, -18);
-          scene.add(earthSphere);
-
-          const surfaceGeo = new THREE.PlaneGeometry(34, 34, 72, 72);
-          surfaceGeo.rotateX(-Math.PI / 2);
-          const pos = surfaceGeo.attributes.position;
-          for (let i = 0; i < pos.count; i++) {
-            const x = pos.getX(i);
-            const z = pos.getZ(i);
-            const dCrater = Math.sqrt((x - 1.6) * (x - 1.6) + (z - 0.2) * (z - 0.2));
-            let y = Math.sin(x * 0.6) * Math.cos(z * 0.5) * 0.08;
-            if (dCrater < 1.8) {
-              y -= Math.cos((dCrater / 1.8) * (Math.PI / 2)) * 0.36;
-            }
-            pos.setY(i, y);
-          }
-          surfaceGeo.computeVertexNormals();
-          const surface = new THREE.Mesh(
-            surfaceGeo,
-            new THREE.MeshStandardMaterial({ color: 0x64748b, roughness: 0.92, metalness: 0.08, flatShading: true })
-          );
-          scene.add(surface);
-
-          const rockMat = new THREE.MeshStandardMaterial({ color: 0x475569, roughness: 0.92, flatShading: true });
-          [
-            [-1.95, 0.08, 1.35, 0.22],
-            [-0.4, 0.06, 1.65, 0.16],
-            [2.1, -0.05, 1.25, 0.2],
-            [-2.4, 0.08, -1.1, 0.28]
-          ].forEach(([rx, ry, rz, rr]) => {
-            const rock = new THREE.Mesh(new THREE.DodecahedronGeometry(rr, 0), rockMat);
-            rock.position.set(rx, ry, rz);
-            scene.add(rock);
-          });
-
-          const targetZone = new THREE.Group();
-          targetZone.position.set(1.35, -0.18, 0.25);
-          const targetRing = new THREE.Mesh(
-            new THREE.RingGeometry(0.32, 0.42, 32),
-            new THREE.MeshBasicMaterial({ color: 0x00e5ff, side: THREE.DoubleSide })
-          );
-          targetRing.rotation.x = -Math.PI / 2;
-          targetZone.add(targetRing);
-          scene.add(targetZone);
-
-          const craft = buildConfiguredSpacecraftMesh({
-            platform,
-            structure,
-            solar,
-            battery,
-            antenna,
-            instruments: equippedInstruments
-          });
-          craft.position.set(-1.35, 0.54, 0.15);
-          scene.add(craft);
-
-          const wheels = craft.userData.wheels || [];
-
-          const armPivot = new THREE.Group();
-          armPivot.position.set(0.55, 0.24, 0.08);
-          craft.add(armPivot);
-
-          const boom = new THREE.Mesh(
-            new THREE.BoxGeometry(0.95, 0.07, 0.07),
-            new THREE.MeshStandardMaterial({ color: 0xf8fafc, metalness: 0.4, roughness: 0.3 })
-          );
-          boom.position.x = 0.45;
-          armPivot.add(boom);
-
-          const drillBit = new THREE.Mesh(
-            new THREE.ConeGeometry(0.055, 0.48, 16),
-            new THREE.MeshStandardMaterial({ color: 0x00e5ff, emissive: 0x00e5ff, emissiveIntensity: 0.45 })
-          );
-          drillBit.rotation.x = Math.PI;
-          drillBit.position.set(0.92, -0.22, 0);
-          armPivot.add(drillBit);
-
-          const scanCone = new THREE.Mesh(
-            new THREE.ConeGeometry(0.45, 0.85, 24, 1, true),
-            new THREE.MeshBasicMaterial({
-              color: 0x00e5ff,
-              transparent: true,
-              opacity: 0.32,
-              side: THREE.DoubleSide
-            })
-          );
-          scanCone.position.set(0.92, -0.35, 0);
-          scanCone.visible = false;
-          armPivot.add(scanCone);
-
-          const canister = new THREE.Mesh(
-            new THREE.CylinderGeometry(0.11, 0.11, 0.22, 18),
-            new THREE.MeshStandardMaterial({
-              color: 0x1e293b,
-              emissive: 0x00e5ff,
-              emissiveIntensity: 0
-            })
-          );
-          canister.position.set(0.15, 0.44, -0.15);
-          craft.add(canister);
-
-          const sprayParticles = [];
-          for (let i = 0; i < 28; i++) {
-            const sp = new THREE.Mesh(
-              new THREE.SphereGeometry(0.025, 6, 6),
-              new THREE.MeshBasicMaterial({ color: 0x94a3b8 })
-            );
-            sp.visible = false;
-            scene.add(sp);
-            sprayParticles.push({ mesh: sp, a: (i / 28) * Math.PI * 2, offset: Math.random() });
-          }
-
-          const handleResize = () => {
-            if (!container) return;
-            const w = container.clientWidth;
-            const h = container.clientHeight;
-            if (w > 0 && h > 0) {
-              camera.aspect = w / h;
-              camera.updateProjectionMatrix();
-              renderer.setSize(w, h, false);
-            }
-          };
-          const resizeObserver = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(handleResize) : null;
-          if (resizeObserver) resizeObserver.observe(container);
-          window.addEventListener('resize', handleResize);
-
-          let isOrbitDragging = false;
-          let prevPointerX = 0;
-          let userOrbitOffset = 0;
-
-          const onSurfacePointerDown = (e) => {
-            isOrbitDragging = true;
-            prevPointerX = e.clientX;
-          };
-          const onSurfacePointerMove = (e) => {
-            if (!isOrbitDragging) return;
-            userOrbitOffset += (e.clientX - prevPointerX) * 0.008;
-            prevPointerX = e.clientX;
-          };
-          const onSurfacePointerUp = () => {
-            isOrbitDragging = false;
-          };
-
-          const surfaceDom = renderer.domElement;
-          surfaceDom.addEventListener('pointerdown', onSurfacePointerDown);
-          window.addEventListener('pointermove', onSurfacePointerMove);
-          window.addEventListener('pointerup', onSurfacePointerUp);
-
-          let animId;
-          const clock = new THREE.Clock();
-
-          const animate = () => {
-            animId = requestAnimationFrame(animate);
-            const t = clock.getElapsedTime();
-            const step = opsStepRef.current;
-
-            targetRing.scale.setScalar(1 + Math.sin(t * 3) * 0.08);
-
-            const autoOrbit = !isOrbitDragging && step === 'SELECT' ? Math.sin(t * 0.35) * 0.45 : 0;
-            const orbitTheta = 0.65 + autoOrbit + userOrbitOffset;
-            const focusX = craft.position.x * 0.45;
-            camera.position.set(
-              focusX + Math.sin(orbitTheta) * 5.2,
-              1.95,
-              Math.cos(orbitTheta) * 5.2
-            );
-            camera.lookAt(focusX, 0.55, 0.1);
-
-            if (step === 'MOVING') {
-              craft.position.x += (0.05 - craft.position.x) * 0.045;
-              wheels.forEach((w) => {
-                w.rotation.z -= 0.12;
-              });
-            } else if (step === 'READY_COLLECT') {
-              craft.position.x += (0.08 - craft.position.x) * 0.08;
-            }
-
-            if (step === 'COLLECTING') {
-              armPivot.rotation.z += (-0.42 - armPivot.rotation.z) * 0.08;
-              drillBit.rotation.y = t * 18;
-              scanCone.visible = true;
-              scanCone.material.opacity = 0.2 + Math.sin(t * 10) * 0.15;
-
-              sprayParticles.forEach((p) => {
-                p.mesh.visible = true;
-                const cycle = (t * 2.2 + p.offset) % 1;
-                const r = cycle * 0.42;
-                p.mesh.position.set(
-                  1.38 + Math.cos(p.a) * r,
-                  -0.15 + Math.sin(cycle * Math.PI) * 0.28,
-                  0.25 + Math.sin(p.a) * r
-                );
-              });
-            } else {
-              armPivot.rotation.z += (0.18 - armPivot.rotation.z) * 0.08;
-              scanCone.visible = false;
-              sprayParticles.forEach((p) => {
-                p.mesh.visible = false;
-              });
-            }
-
-            if (step === 'COMPLETE') {
-              canister.material.emissiveIntensity = 0.95;
-            }
-
-            renderer.render(scene, camera);
-          };
-          animate();
-
-          return () => {
-            cancelAnimationFrame(animId);
-            if (resizeObserver) resizeObserver.disconnect();
-            surfaceDom.removeEventListener('pointerdown', onSurfacePointerDown);
-            window.removeEventListener('pointermove', onSurfacePointerMove);
-            window.removeEventListener('pointerup', onSurfacePointerUp);
-            window.removeEventListener('resize', handleResize);
-            renderer.dispose();
-          };
-        }, [platform, structure, solar, battery, antenna, equippedInstruments]);
-
-        const activeInstObj = SUBSYSTEMS.instruments.find((i) => i.id === selectedInstId) || SUBSYSTEMS.instruments[0];
-        const hasSpectrometerOrDrill =
-          equippedInstruments.includes('spectrometer') || equippedInstruments.includes('drill');
-
-        return (
-          <div className="relative w-full max-w-6xl mx-auto px-4 pt-2 pb-6">
-            <div className="relative glass-card rounded-2xl overflow-hidden h-[500px] sm:h-[550px]">
-              <div ref={containerRef} className="w-full h-full cursor-grab active:cursor-grabbing" />
-
-              <div className="absolute top-4 left-4 px-3 py-1.5 rounded-lg bg-[#070B14]/80 border border-cyan-500/30 font-mono-tech text-xs text-cyan-300">
-                SURFACE OPS // {landingSite.name.toUpperCase()} ({landingSite.coords})
-              </div>
-
-              {opsStep === 'SELECT' && (
-                <div className="absolute top-4 right-4 bottom-4 w-[90%] max-w-sm glass-card-selected rounded-xl p-5 flex flex-col justify-between z-20 transition-all duration-300">
-                  <div>
-                    <div className="text-[11px] font-mono-tech text-cyan-400 tracking-wider mb-1">
-                      SURFACE OPS // STEP 01
-                    </div>
-                    <h3 className="font-display text-2xl font-bold text-white mb-2">
-                      SELECT SCIENTIFIC INSTRUMENT
-                    </h3>
-                    <p className="text-xs text-slate-300 mb-4">
-                      Choose your primary payload instrument to deploy onto the shadowed crater boundary.
-                    </p>
-
-                    <div className="space-y-2.5">
-                      {availableInstruments.map((inst) => {
-                        const active = selectedInstId === inst.id;
-                        return (
-                          <button
-                            key={inst.id}
-                            onClick={() => setSelectedInstId(inst.id)}
-                            className={`w-full text-left p-3.5 rounded-xl border transition-all ${
-                              active
-                                ? 'bg-cyan-500/15 border-[#00E5FF] shadow-[0_0_18px_rgba(0,229,255,0.22)]'
-                                : 'bg-[#091020]/80 border-cyan-500/25 hover:border-cyan-400/60'
-                            }`}
-                          >
-                            <div className="flex items-center justify-between">
-                              <span className="font-display text-lg font-bold text-white">{inst.name}</span>
-                              <span className="font-mono-tech text-xs text-cyan-300">{inst.statLabel}</span>
-                            </div>
-                            <div className="text-[11px] text-slate-400 mt-1">{inst.tooltip}</div>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  <button
-                    onClick={() => setOpsStep('MOVING')}
-                    className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-400 to-sky-500 text-[#070B14] font-display text-lg font-extrabold tracking-wider shadow-[0_0_24px_rgba(0,229,255,0.4)] hover:brightness-110 transition-all"
-                  >
-                    [ CONFIRM SELECTION ]
-                  </button>
-                </div>
-              )}
-
-              {opsStep === 'MOVING' && (
-                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 px-5 py-2.5 rounded-full bg-[#070B14]/85 border border-cyan-400/50 font-mono-tech text-xs text-cyan-300 flex items-center gap-2.5">
-                  <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
-                  DEPLOYING TO TARGET SAMPLE ZONE...
-                </div>
-              )}
-
-              {opsStep === 'READY_COLLECT' && (
-                <div className="absolute bottom-7 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-20">
-                  <div className="px-4 py-1.5 rounded-full bg-[#070B14]/90 border border-emerald-400/60 font-mono-tech text-xs text-emerald-300">
-                    TARGET LOCATION REACHED
-                  </div>
-                  <button
-                    onClick={() => setOpsStep('COLLECTING')}
-                    className="px-7 py-3.5 rounded-xl bg-gradient-to-r from-cyan-400 to-sky-500 text-[#070B14] font-display text-xl font-extrabold tracking-wider shadow-[0_0_28px_rgba(0,229,255,0.5)] hover:scale-[1.02] transition-all"
-                  >
-                    [ START DATA COLLECTION ]
-                  </button>
-                </div>
-              )}
-
-              {opsStep === 'COLLECTING' && (
-                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-md bg-[#070B14]/85 backdrop-blur-md border border-cyan-400/40 rounded-xl px-5 py-3 z-20">
-                  <div className="flex justify-between font-mono-tech text-xs text-cyan-300 mb-1.5">
-                    <span>COLLECTING SAMPLE ({activeInstObj.name})...</span>
-                    <span className="font-bold">{collectPct}%</span>
-                  </div>
-                  <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-gradient-to-r from-cyan-400 to-sky-400 transition-all duration-100"
-                      style={{ width: `${collectPct}%` }}
-                    />
-                  </div>
-                </div>
-              )}
-
-              {opsStep === 'COMPLETE' && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#070B14]/55 backdrop-blur-[2px] p-4 z-20">
-                  <div className="glass-card-selected rounded-2xl p-6 max-w-lg w-full text-center">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/60 font-mono-tech text-xs text-emerald-300 mb-3">
-                      <IconCheckCircle2 className="w-4 h-4" />
-                      MISSION OBJECTIVE ACHIEVED
-                    </div>
-                    <h3 className="font-display text-3xl sm:text-4xl font-extrabold text-white mb-4">
-                      DATA COLLECTION SUCCESSFUL!
-                    </h3>
-                    <div className="grid grid-cols-3 gap-2.5 text-left mb-5">
-                      <div className="p-2.5 rounded-lg bg-[#070B14]/80 border border-cyan-500/25">
-                        <div className="text-[10px] font-mono-tech text-slate-400">SAMPLE</div>
-                        <div className="text-xs font-mono-tech font-bold text-emerald-400 mt-0.5">COMPLETE</div>
-                      </div>
-                      <div className="p-2.5 rounded-lg bg-[#070B14]/80 border border-cyan-500/25">
-                        <div className="text-[10px] font-mono-tech text-slate-400">INSTRUMENT</div>
-                        <div className="text-xs font-mono-tech font-bold text-cyan-300 mt-0.5">OPERATIONAL</div>
-                      </div>
-                      <div className="p-2.5 rounded-lg bg-[#070B14]/80 border border-cyan-500/25">
-                        <div className="text-[10px] font-mono-tech text-slate-400">TRANSMISSION</div>
-                        <div className="text-xs font-mono-tech font-bold text-emerald-400 mt-0.5">100% LOCKED</div>
-                      </div>
-                    </div>
-                    <div className="p-3 rounded-xl bg-cyan-950/40 border border-cyan-500/30 text-xs font-mono-tech text-cyan-200 mb-5">
-                      {hasSpectrometerOrDrill
-                        ? `H2O SIGNATURE DETECTED: 5.4 wt% BOUND WATER ICE VERIFIED AT ${landingSite.name.toUpperCase()}`
-                        : `OPTICAL ALBEDO SPIKE DETECTED: HIGH SURFACE REFLECTANCE CAPTURED (SPECTRAL CONFIRMATION PENDING)`}
-                    </div>
-                    <button
-                      onClick={onGenerateReport}
-                      className="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-400 to-sky-500 text-[#070B14] font-display text-xl font-extrabold tracking-wider shadow-[0_0_26px_rgba(0,229,255,0.45)] hover:brightness-110 transition-all"
-                    >
-                      [ GENERATE MISSION DATA REPORT → ]
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        );
-      };
-
-      // ============================================================================
-      // MAIN APPLICATION COMPONENT
-      // ============================================================================
-      function App() {
-        const [act, setAct] = useState('act0');
-        const [drawerOpen, setDrawerOpen] = useState(false);
-        const [howToPlayOpen, setHowToPlayOpen] = useState(false);
-
-        const activeMissionIndex = MISSIONS.findIndex((m) => !m.locked);
-        const [missionIdx, setMissionIdx] = useState(activeMissionIndex >= 0 ? activeMissionIndex : 2);
-        const [lockedShake, setLockedShake] = useState(false);
-        const [dragOffsetPx, setDragOffsetPx] = useState(0);
-        const dragStartXRef = useRef(null);
-        const wheelLockRef = useRef(0);
-
-        const [rocketIdx, setRocketIdx] = useState(0);
-        const [platformId, setPlatformId] = useState(PLATFORMS[0].id);
-        const [builderTab, setBuilderTab] = useState(0);
-        const [structureId, setStructureId] = useState(SUBSYSTEMS.structure[0].id);
-        const [solarId, setSolarId] = useState(SUBSYSTEMS.solar[0].id);
-        const [batteryId, setBatteryId] = useState(SUBSYSTEMS.battery[0].id);
-        const [antennaId, setAntennaId] = useState(SUBSYSTEMS.antenna[0].id);
-        const [instrumentIds, setInstrumentIds] = useState([SUBSYSTEMS.instruments[0].id]);
-
-        const [orbitIdx, setOrbitIdx] = useState(0);
-
-        const [resourceNode, setResourceNode] = useState(0);
-        const [powerSliders, setPowerSliders] = useState({
-          science: 65,
-          thermal: 45,
-          comms: 35,
-          avionics: 45
-        });
-        const [commMode, setCommMode] = useState('high_res');
-
-        const [landingSiteId, setLandingSiteId] = useState(LANDING_SITES[0].id);
-        const [descentProfileId, setDescentProfileId] = useState(DESCENT_PROFILES[0].id);
-
-        const [showDetailedReport, setShowDetailedReport] = useState(false);
-
-        const selectedRocket = ROCKETS[rocketIdx];
-        const selectedPlatform = PLATFORMS.find((p) => p.id === platformId) || PLATFORMS[0];
-        const selectedStructure = SUBSYSTEMS.structure.find((s) => s.id === structureId) || SUBSYSTEMS.structure[0];
-        const selectedSolar = SUBSYSTEMS.solar.find((s) => s.id === solarId) || SUBSYSTEMS.solar[0];
-        const selectedBattery = SUBSYSTEMS.battery.find((b) => b.id === batteryId) || SUBSYSTEMS.battery[0];
-        const selectedAntenna = SUBSYSTEMS.antenna.find((a) => a.id === antennaId) || SUBSYSTEMS.antenna[0];
-        const selectedInstruments = SUBSYSTEMS.instruments.filter((i) => instrumentIds.includes(i.id));
-        const selectedOrbit = ORBITS[orbitIdx];
-        const selectedLandingSite = LANDING_SITES.find((s) => s.id === landingSiteId) || LANDING_SITES[0];
-        const selectedDescentProfile =
-          DESCENT_PROFILES.find((d) => d.id === descentProfileId) || DESCENT_PROFILES[0];
-
-        const spacecraftCostM = useMemo(() => {
-          const instCost = selectedInstruments.reduce((sum, i) => sum + i.costM, 0);
-          return (
-            selectedPlatform.costM +
-            selectedStructure.costM +
-            selectedSolar.costM +
-            selectedBattery.costM +
-            selectedAntenna.costM +
-            instCost
-          );
-        }, [selectedPlatform, selectedStructure, selectedSolar, selectedBattery, selectedAntenna, selectedInstruments]);
-
-        const totalSpentM = Number((selectedRocket.costM + spacecraftCostM).toFixed(1));
-        const remainingBudgetM = Number((TOTAL_MISSION_BUDGET_M - totalSpentM).toFixed(1));
-        const isOverBudget = remainingBudgetM < 0;
-
-        const totalMassKg = useMemo(() => {
-          const instMass = selectedInstruments.reduce((sum, i) => sum + i.massKg, 0);
-          return (
-            selectedPlatform.dryMassKg +
-            selectedStructure.massKg +
-            selectedSolar.massKg +
-            selectedBattery.massKg +
-            selectedAntenna.massKg +
-            instMass
-          );
-        }, [selectedPlatform, selectedStructure, selectedSolar, selectedBattery, selectedAntenna, selectedInstruments]);
-
-        const effectiveMassLimitKg = selectedRocket.maxPayloadKg;
-        const isOverweight = totalMassKg > effectiveMassLimitKg;
-
-        const effectiveSolarW = Math.round(selectedSolar.powerW * selectedOrbit.powerMultiplier);
-        const instrumentDrawW = selectedInstruments.reduce((sum, i) => sum + i.drawW, 0);
-        const nominalDrawW = selectedPlatform.basePowerDrawW + instrumentDrawW;
-        const netPowerW = effectiveSolarW - nominalDrawW;
-
-        const effectiveCommsMbps = Number((selectedAntenna.rateMbps * selectedOrbit.commMultiplier).toFixed(1));
-
-        const totalAllocatedW =
-          powerSliders.science + powerSliders.thermal + powerSliders.comms + powerSliders.avionics;
-        const isPowerOverAllocated = totalAllocatedW > effectiveSolarW;
-
-        const autoBalancePower = () => {
-          const cap = Math.max(120, effectiveSolarW - 10);
-          setPowerSliders({
-            science: Math.round(cap * 0.34),
-            thermal: Math.round(cap * 0.26),
-            comms: Math.round(cap * 0.18),
-            avionics: Math.round(cap * 0.22)
-          });
-        };
-
-        const toggleInstrument = (id) => {
-          setInstrumentIds((prev) => {
-            if (prev.includes(id)) {
-              return prev.filter((x) => x !== id);
-            }
-            return [...prev, id];
-          });
-        };
-
-        const drawerStages = useMemo(() => {
-          const orderMap = {
-            act0: 0,
-            act1: 0,
-            act2: 1,
-            act3a: 1,
-            act3b: 1,
-            act4: 2,
-            act5: 2,
-            act6a: 3,
-            act6b: 3,
-            act6c: 3,
-            act6d: 3,
-            act7: 4,
-            act8: 5
-          };
-          const curr = orderMap[act] ?? 0;
-          return [
-            { id: 1, label: '1. Spacecraft Builder', targetAct: 'act3a', status: curr > 1 ? 'done' : curr === 1 ? 'active' : 'locked' },
-            { id: 2, label: '2. Resource Allocation', targetAct: 'act5', status: curr > 2 ? 'done' : curr === 2 ? 'active' : 'locked' },
-            { id: 3, label: '3. Launch & Land', targetAct: 'act6a', status: curr > 3 ? 'done' : curr === 3 ? 'active' : 'locked' },
-            { id: 4, label: '4. Explore & Collect Data', targetAct: 'act7', status: curr > 4 ? 'done' : curr === 4 ? 'active' : 'locked' },
-            { id: 5, label: '5. Mission Summary', targetAct: 'act8', status: curr >= 5 ? 'active' : 'locked' }
-          ];
-        }, [act]);
-
-        const isHardLanding =
-          isOverweight || (selectedLandingSite.slopeNum > 6.0 && selectedDescentProfile.id === 'ballistic');
-
-        const missionEvaluation = useMemo(() => {
-          const hasSpec = instrumentIds.includes('spectrometer');
-          const hasDrill = instrumentIds.includes('drill');
-          const hasCamOnly = instrumentIds.includes('camera') && !hasSpec && !hasDrill;
-
-          let structPowerScore = 76 + selectedStructure.strengthBonus * 0.5;
-          if (selectedSolar.id === 'deployable') structPowerScore += 12;
-          if (netPowerW < 0) structPowerScore -= 18;
-          if (isPowerOverAllocated) structPowerScore -= 10;
-          structPowerScore = Math.max(40, Math.min(100, Math.round(structPowerScore)));
-
-          let launchScore = isOverweight ? 52 : 94;
-          if (selectedOrbit.id === 'nrho') launchScore = Math.min(100, launchScore + 5);
-
-          let landingScore = selectedDescentProfile.precisionScore;
-          if (isOverweight) landingScore -= 24;
-          if (selectedLandingSite.id === 'shackleton') landingScore += 2;
-          landingScore = Math.max(38, Math.min(100, Math.round(landingScore)));
-
-          let commsScore = selectedAntenna.id === 'high_gain' ? 96 : selectedAntenna.id === 'med_gain' ? 84 : 68;
-          if (commMode === 'high_res') commsScore = Math.min(100, commsScore + 4);
-
-          let iceVerifyScore = 45;
-          if (hasSpec && hasDrill) iceVerifyScore = 100;
-          else if (hasSpec) iceVerifyScore = 88;
-          else if (hasDrill) iceVerifyScore = 78;
-          else if (hasCamOnly) iceVerifyScore = 48;
-
-          let thermalScore = 82;
-          if (selectedLandingSite.id === 'cabeus') {
-            thermalScore = selectedBattery.id === 'high_cap' ? 92 : selectedBattery.id === 'redundant' ? 80 : 48;
-          } else if (selectedBattery.id === 'high_cap' || selectedBattery.id === 'redundant') {
-            thermalScore = 95;
-          }
-
-          const budgetScore = remainingBudgetM >= 80 ? 98 : remainingBudgetM >= 25 ? 90 : remainingBudgetM >= 0 ? 80 : 30;
-
-          const total = Math.round(
-            structPowerScore * 0.16 +
-              launchScore * 0.14 +
-              landingScore * 0.16 +
-              commsScore * 0.12 +
-              iceVerifyScore * 0.22 +
-              thermalScore * 0.1 +
-              budgetScore * 0.1
-          );
-
-          let grade = 'C';
-          if (total >= 91) grade = 'S';
-          else if (total >= 82) grade = 'A';
-          else if (total >= 70) grade = 'B';
-
-          let chiefQuote =
-            'Outstanding systems engineering. Your vertical polar solar geometry and dual neutron/NIR spectroscopy definitively verified bound H2O ice crystals at the Lunar South Pole.';
-          if (hasCamOnly) {
-            chiefQuote =
-              'Touchdown achieved, but optical imaging alone triggered an OH/glint false positive. Without a Spectrometer or Subsurface Drill, true bound H2O ice remains unconfirmed.';
-          } else if (isOverweight) {
-            chiefQuote =
-              'Payload exceeded launch vehicle lift margin, forcing a stressed terminal descent. Re-optimizing composite structures and launch lift will elevate this to an S-rank Artemis mission.';
-          } else if (selectedLandingSite.id === 'cabeus' && selectedBattery.id === 'li_ion') {
-            chiefQuote =
-              'Brave descent into Cabeus Crater PSR! However, 12% solar illumination rapidly depleted standard Li-ion reserves before full core extraction completed.';
-          }
-
-          return {
-            grade,
-            total,
-            chiefQuote,
-            hasCamOnly,
-            hasSpec,
-            hasDrill,
-            breakdown: [
-              { label: 'Spacecraft Structure & Solar', score: structPowerScore, detail: `${selectedStructure.name} + ${selectedSolar.name}` },
-              { label: 'Launch & Orbital Insertion', score: launchScore, detail: `${selectedRocket.name} → ${selectedOrbit.id.toUpperCase()}` },
-              { label: 'South Pole Touchdown Precision', score: landingScore, detail: `${selectedLandingSite.name} (${selectedDescentProfile.name})` },
-              { label: 'Science Data Downlink Rate', score: commsScore, detail: `${effectiveCommsMbps} Mbps (${commMode.toUpperCase()})` },
-              { label: 'H2O Ice Spectral Verification', score: iceVerifyScore, detail: hasSpec && hasDrill ? 'Subsurface H2O Confirmed' : hasCamOnly ? 'Optical Glint False Positive' : 'Partial Volatile Assay' },
-              { label: 'Cryo Thermal & Battery Survival', score: thermalScore, detail: `${selectedBattery.statLabel} @ ${selectedLandingSite.solar} Solar` },
-              { label: 'Mission Budget Stewardship', score: budgetScore, detail: `$${remainingBudgetM}M Remaining of $300M` }
-            ]
-          };
-        }, [
-          instrumentIds,
-          selectedStructure,
-          selectedSolar,
-          netPowerW,
-          isPowerOverAllocated,
-          isOverweight,
-          selectedOrbit,
-          selectedDescentProfile,
-          selectedLandingSite,
-          selectedAntenna,
-          commMode,
-          selectedBattery,
-          remainingBudgetM,
-          effectiveCommsMbps,
-          selectedRocket
-        ]);
-
-        const handleNewDesign = () => {
-          setRocketIdx(0);
-          setPlatformId(PLATFORMS[0].id);
-          setBuilderTab(0);
-          setStructureId(SUBSYSTEMS.structure[0].id);
-          setSolarId(SUBSYSTEMS.solar[0].id);
-          setBatteryId(SUBSYSTEMS.battery[0].id);
-          setAntennaId(SUBSYSTEMS.antenna[0].id);
-          setInstrumentIds([SUBSYSTEMS.instruments[0].id]);
-          setOrbitIdx(0);
-          setResourceNode(0);
-          setCommMode('high_res');
-          setLandingSiteId(LANDING_SITES[0].id);
-          setDescentProfileId(DESCENT_PROFILES[0].id);
-          setShowDetailedReport(false);
-          setAct('act1');
-        };
-
-        return (
-          <div className="min-h-screen space-grid-bg text-slate-100 relative selection:bg-cyan-400 selection:text-slate-950">
-            <StarfieldLayer />
-
-            {/* GLOBAL TOP HUD BAR */}
-            <header className="sticky top-0 z-50 w-full px-4 sm:px-6 py-3 bg-[#070B14]/80 backdrop-blur-md border-b border-cyan-500/20">
-              <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={() => setDrawerOpen(true)}
-                    aria-label="Open Mission Stages Drawer"
-                    className="w-9 h-9 rounded-lg bg-[#0E1629] border border-cyan-500/30 hover:border-[#00E5FF] flex items-center justify-center text-cyan-300 transition-colors"
-                  >
-                    <IconMenu className="w-5 h-5" />
-                  </button>
-                  <button
-                    onClick={() => setAct('act0')}
-                    className="text-left flex items-center gap-2 group"
-                  >
-                    <span className="font-display text-xl sm:text-2xl font-extrabold tracking-wider text-white group-hover:text-cyan-300 transition-colors">
-                      SPACE MISSION DESIGNER
-                    </span>
-                  </button>
-                </div>
-
-                {act !== 'act0' && act !== 'act8' && (
-                  <div className="flex items-center gap-2 sm:gap-4 px-3 sm:px-4 py-1.5 rounded-full bg-[#0E1629]/90 border border-cyan-500/30 font-mono-tech text-[11px] sm:text-xs shadow-[0_0_20px_rgba(0,0,0,0.5)]">
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-slate-400 hidden md:inline">BUDGET</span>
-                      <span className={`font-bold ${isOverBudget ? 'text-red-400 animate-pulse' : 'text-emerald-400'}`}>
-                        ${remainingBudgetM}M
-                      </span>
-                    </div>
-                    <span className="text-slate-700">|</span>
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-slate-400 hidden md:inline">MASS</span>
-                      <span className={`font-bold ${isOverweight ? 'text-red-400 animate-pulse' : 'text-cyan-300'}`}>
-                        {totalMassKg}/{effectiveMassLimitKg}kg
-                      </span>
-                    </div>
-                    <span className="text-slate-700 hidden sm:inline">|</span>
-                    <div className="hidden sm:flex items-center gap-1.5">
-                      <span className="text-slate-400 hidden md:inline">POWER</span>
-                      <span className={`font-bold ${netPowerW < 0 ? 'text-amber-400' : 'text-cyan-300'}`}>
-                        {netPowerW >= 0 ? `+${netPowerW}W` : `${netPowerW}W`}
-                      </span>
-                    </div>
-                    <span className="text-slate-700 hidden lg:inline">|</span>
-                    <div className="hidden lg:flex items-center gap-1.5">
-                      <span className="text-slate-400">COMMS</span>
-                      <span className="font-bold text-sky-300">{effectiveCommsMbps} Mbps</span>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </header>
-
-            {/* Collapsible Left Navigation Drawer */}
-            {drawerOpen && (
-              <div className="fixed inset-0 z-[100] flex">
-                <div
-                  className="fixed inset-0 bg-[#070B14]/70 backdrop-blur-xs"
-                  onClick={() => setDrawerOpen(false)}
-                />
-                <aside className="relative z-10 w-80 max-w-[85vw] h-full bg-[#0B1222]/95 backdrop-blur-xl border-r border-cyan-500/30 p-6 flex flex-col justify-between shadow-2xl">
-                  <div>
-                    <div className="flex items-center justify-between pb-4 border-b border-cyan-500/20">
-                      <div>
-                        <div className="text-[10px] font-mono-tech text-cyan-400">ARTEMIS // CLPS TELEMETRY</div>
-                        <div className="font-display text-xl font-bold text-white">MISSION ARCHITECTURE</div>
-                      </div>
-                      <button
-                        onClick={() => setDrawerOpen(false)}
-                        className="w-8 h-8 rounded-lg border border-slate-700 hover:border-cyan-400 flex items-center justify-center text-slate-300 hover:text-cyan-300"
-                      >
-                        <IconX className="w-4 h-4" />
-                      </button>
-                    </div>
-
-                    <nav className="mt-6 space-y-2.5">
-                      {drawerStages.map((st) => {
-                        const isActive = st.status === 'active';
-                        const isDone = st.status === 'done';
-                        const isLocked = st.status === 'locked';
-                        return (
-                          <button
-                            key={st.id}
-                            disabled={isLocked}
-                            onClick={() => {
-                              if (!isLocked) {
-                                setAct(st.targetAct);
-                                setDrawerOpen(false);
-                              }
-                            }}
-                            className={`w-full flex items-center justify-between px-4 py-3.5 rounded-xl border text-left transition-all ${
-                              isActive
-                                ? 'bg-cyan-500/15 border-[#38BDF8] shadow-[0_0_20px_rgba(56,189,248,0.25)] text-white'
-                                : isDone
-                                ? 'bg-[#0E1629]/80 border-emerald-500/35 text-slate-200 hover:border-emerald-400'
-                                : 'bg-[#090E1A]/60 border-slate-800/80 text-slate-500 cursor-not-allowed'
-                            }`}
-                          >
-                            <span className="font-display text-lg font-bold tracking-wide">{st.label}</span>
-                            {isActive && (
-                              <span className="w-3 h-3 rounded-full bg-[#38BDF8] shadow-[0_0_10px_#38BDF8] animate-pulse" />
-                            )}
-                            {isDone && (
-                              <span className="w-5 h-5 rounded-full bg-emerald-500/20 border border-[#10B981] text-[#10B981] flex items-center justify-center">
-                                <IconCheck className="w-3.5 h-3.5" />
-                              </span>
-                            )}
-                            {isLocked && <IconLock className="w-4 h-4 text-slate-600" />}
-                          </button>
-                        );
-                      })}
-                    </nav>
-                  </div>
-
-                  <div className="p-3.5 rounded-xl bg-[#070B14] border border-cyan-500/20 font-mono-tech text-[11px] text-slate-400">
-                    <div>TARGET: LUNAR SOUTH POLE</div>
-                    <div className="text-cyan-400 mt-0.5">LAT 89.5° S // SHACKLETON SECTOR</div>
-                  </div>
-                </aside>
-              </div>
-            )}
-
-            <main className="relative z-10">
-              {/* ACT 0: HERO LANDING SCREEN */}
-              {act === 'act0' && (
-                <section className="max-w-6xl mx-auto px-6 py-10 sm:py-16 min-h-[calc(100vh-68px)] flex items-center">
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center w-full">
-                    <div className="lg:col-span-6 space-y-6">
-                      <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-cyan-950/50 border border-cyan-400/40 font-mono-tech text-[11px] text-cyan-300 tracking-wider">
-                        <span className="w-2 h-2 rounded-full bg-[#00E5FF]" />
-                        <span>NASA-INSPIRED SIMULATION</span>
-                        <span className="text-cyan-500">•</span>
-                        <span>ARTEMIS &amp; CLPS ERA</span>
-                      </div>
-
-                      <h1 className="font-display text-6xl sm:text-7xl lg:text-[82px] font-extrabold leading-[0.94] tracking-tight">
-                        <span className="block text-white">SPACE MISSION</span>
-                        <span className="block bg-gradient-to-r from-[#00E5FF] via-[#38BDF8] to-blue-400 bg-clip-text text-transparent">
-                          DESIGNER
-                        </span>
-                      </h1>
-
-                      <p className="text-slate-300 text-base sm:text-lg leading-relaxed max-w-xl">
-                        Engineer a lunar spacecraft, balance mass and polar solar power, land at the Lunar South Pole, and verify hidden water ice deposits.
-                      </p>
-
-                      <div className="pt-2">
-                        <button
-                          onClick={() => setAct('act1')}
-                          className="group inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-gradient-to-r from-[#00E5FF] to-[#0284C7] text-[#070B14] font-display text-2xl font-extrabold tracking-wider shadow-[0_0_32px_rgba(0,229,255,0.42)] hover:shadow-[0_0_42px_rgba(0,229,255,0.68)] hover:-translate-y-0.5 transition-all"
-                        >
-                          <span>START DESIGN</span>
-                          <IconArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className="lg:col-span-6 flex justify-center">
-                      <svg viewBox="0 0 460 440" className="w-full max-w-[440px] select-none overflow-visible">
-                        <defs>
-                          <radialGradient id="heroMoonShade" cx="36%" cy="32%" r="68%">
-                            <stop offset="0%" stopColor="#475569" />
-                            <stop offset="48%" stopColor="#1E293B" />
-                            <stop offset="85%" stopColor="#0F172A" />
-                            <stop offset="100%" stopColor="#070B14" />
-                          </radialGradient>
-                          <radialGradient id="southPoleGlow" cx="50%" cy="50%" r="50%">
-                            <stop offset="0%" stopColor="#00E5FF" stopOpacity="0.65" />
-                            <stop offset="100%" stopColor="#00E5FF" stopOpacity="0" />
-                          </radialGradient>
-                        </defs>
-
-                        <circle
-                          cx="245"
-                          cy="205"
-                          r="175"
-                          fill="none"
-                          stroke="rgba(56, 189, 248, 0.22)"
-                          strokeWidth="1.2"
-                          strokeDasharray="6 6"
-                        />
-                        <ellipse
-                          cx="245"
-                          cy="205"
-                          rx="196"
-                          ry="86"
-                          transform="rotate(-22 245 205)"
-                          fill="none"
-                          stroke="rgba(0, 229, 255, 0.35)"
-                          strokeWidth="1.4"
-                          strokeDasharray="5 5"
-                        />
-
-                        <circle
-                          cx="245"
-                          cy="205"
-                          r="134"
-                          fill="url(#heroMoonShade)"
-                          stroke="rgba(148, 163, 184, 0.28)"
-                          strokeWidth="1.5"
-                        />
-
-                        <circle cx="205" cy="165" r="22" fill="rgba(15, 23, 42, 0.45)" stroke="rgba(148,163,184,0.12)" />
-                        <circle cx="282" cy="185" r="30" fill="rgba(15, 23, 42, 0.4)" stroke="rgba(148,163,184,0.1)" />
-                        <circle cx="222" cy="245" r="18" fill="rgba(15, 23, 42, 0.5)" stroke="rgba(148,163,184,0.14)" />
-                        <circle cx="268" cy="285" r="14" fill="rgba(15, 23, 42, 0.6)" stroke="rgba(56,189,248,0.2)" />
-
-                        <circle cx="245" cy="337" r="28" fill="url(#southPoleGlow)" />
-                        <circle cx="245" cy="337" r="9" fill="none" stroke="#00E5FF" strokeWidth="1.5" className="animate-beacon" />
-                        <circle cx="245" cy="337" r="4.5" fill="#00E5FF" />
-
-                        <polyline
-                          points="245,337 185,392 155,392"
-                          fill="none"
-                          stroke="#00E5FF"
-                          strokeWidth="1.5"
-                          strokeDasharray="4 4"
-                        />
-                        <text
-                          x="148"
-                          y="396"
-                          textAnchor="end"
-                          fill="#00E5FF"
-                          fontSize="11.5"
-                          fontFamily="JetBrains Mono, monospace"
-                          fontWeight="700"
-                        >
-                          LUNAR SOUTH POLE // PSR TARGET
-                        </text>
-                      </svg>
-                    </div>
-                  </div>
-                </section>
-              )}
-
-              {/* ACT 1: CHOOSE MISSION TARGET */}
-              {act === 'act1' && (
-                <section className="relative max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 overflow-hidden">
-                  <svg
-                    viewBox="0 0 320 320"
-                    className="hidden md:block absolute -right-12 top-2 w-80 h-80 opacity-15 pointer-events-none"
-                  >
-                    <circle cx="160" cy="160" r="130" fill="none" stroke="#38BDF8" strokeWidth="1.5" />
-                    <circle cx="160" cy="160" r="95" fill="none" stroke="#00E5FF" strokeWidth="1" strokeDasharray="6 6" />
-                    <circle cx="160" cy="160" r="55" fill="none" stroke="#38BDF8" strokeWidth="1" />
-                  </svg>
-
-                  <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-                    <div>
-                      <div className="font-mono-tech text-xs text-cyan-400 tracking-widest mb-1">
-                        SELECT EXPEDITION PROFILE
-                      </div>
-                      <h2 className="font-display text-4xl sm:text-5xl font-extrabold text-white">
-                        CHOOSE MISSION TARGET
-                      </h2>
-                    </div>
-                    <div className="font-mono-tech text-[11px] text-slate-400">
-                      DRAG, SCROLL OR CLICK CARDS TO BROWSE ({missionIdx + 1} / {MISSIONS.length})
-                    </div>
-                  </div>
-
-                  <div
-                    className="relative h-[340px] sm:h-[360px] flex items-center justify-center select-none touch-pan-y cursor-grab active:cursor-grabbing"
-                    onPointerDown={(e) => {
-                      dragStartXRef.current = e.clientX;
-                    }}
-                    onPointerMove={(e) => {
-                      if (dragStartXRef.current === null) return;
-                      const delta = e.clientX - dragStartXRef.current;
-                      setDragOffsetPx(Math.max(-140, Math.min(140, delta)));
-                    }}
-                    onPointerUp={(e) => {
-                      if (dragStartXRef.current === null) return;
-                      const diff = e.clientX - dragStartXRef.current;
-                      const total = MISSIONS.length;
-                      if (diff > 40) setMissionIdx((i) => (i - 1 + total) % total);
-                      else if (diff < -40) setMissionIdx((i) => (i + 1) % total);
-                      dragStartXRef.current = null;
-                      setDragOffsetPx(0);
-                    }}
-                    onPointerCancel={() => {
-                      dragStartXRef.current = null;
-                      setDragOffsetPx(0);
-                    }}
-                    onWheel={(e) => {
-                      const now = performance.now();
-                      if (now - wheelLockRef.current < 240) return;
-                      if (Math.abs(e.deltaX) > 15 || Math.abs(e.deltaY) > 15) {
-                        wheelLockRef.current = now;
-                        const dir = (Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY) > 0 ? 1 : -1;
-                        const total = MISSIONS.length;
-                        setMissionIdx((i) => (i + dir + total) % total);
-                      }
-                    }}
-                  >
-                    {MISSIONS.map((card, idx) => {
-                      const total = MISSIONS.length;
-                      let offset = idx - missionIdx;
-                      if (offset > Math.floor(total / 2)) offset -= total;
-                      if (offset < -Math.floor(total / 2)) offset += total;
-
-                      const absOff = Math.abs(offset);
-                      if (absOff > 2) return null;
-
-                      const isCenter = offset === 0;
-                      const isLocked = card.locked;
-                      const baseTranslateX = offset * 270 + dragOffsetPx * 0.45;
-                      const scale = isCenter ? 1.0 : absOff === 1 ? 0.86 : 0.74;
-                      const opacity = isCenter ? 1 : absOff === 1 ? 0.58 : 0.25;
-                      const zIndex = 30 - absOff * 10;
-
-                      return (
-                        <div
-                          key={card.id}
-                          onClick={() => {
-                            if (Math.abs(dragOffsetPx) < 8) setMissionIdx(idx);
-                          }}
-                          style={{
-                            transform: `translate3d(${baseTranslateX}px, 0, 0) scale(${scale})`,
-                            opacity,
-                            zIndex,
-                            transition:
-                              dragStartXRef.current !== null
-                                ? 'none'
-                                : 'transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease'
-                          }}
-                          className={`absolute w-[88vw] max-w-md cursor-pointer rounded-2xl p-6 ${
-                            isCenter
-                              ? isLocked
-                                ? 'bg-[#0E1629]/95 border border-slate-600 shadow-2xl'
-                                : 'glass-card-selected'
-                              : 'bg-[#0A101E]/85 border border-slate-800/90 hover:opacity-80'
-                          } ${isCenter && lockedShake ? 'animate-shake' : ''}`}
-                        >
-                          <div>
-                            <div className="flex items-center justify-between gap-2 mb-4">
-                              <span
-                                className={`px-2.5 py-1 rounded-full font-mono-tech text-[10px] font-bold ${
-                                  isLocked
-                                    ? 'bg-slate-800 text-slate-400 border border-slate-700'
-                                    : 'bg-cyan-500/15 text-cyan-300 border border-cyan-400/50'
-                                }`}
-                              >
-                                {card.badge}
-                              </span>
-                              <span
-                                className={`font-mono-tech text-xs font-bold ${
-                                  isLocked ? 'text-slate-500' : 'text-emerald-400'
-                                }`}
-                              >
-                                BUDGET: {card.budget}
-                              </span>
-                            </div>
-
-                            <h3
-                              className={`font-display text-2xl sm:text-3xl font-extrabold mb-3 ${
-                                isLocked ? 'text-slate-400' : 'text-white'
-                              }`}
-                            >
-                              {card.title}
-                            </h3>
-
-                            <p className={`text-sm leading-relaxed mb-6 ${isLocked ? 'text-slate-500' : 'text-slate-300'}`}>
-                              {card.description}
-                            </p>
-                          </div>
-
-                          {isLocked ? (
-                            <div className="pt-3 border-t border-slate-800 flex items-center gap-2 font-mono-tech text-xs text-slate-500">
-                              <IconLock className="w-4 h-4" />
-                              <span>{card.clearance}</span>
-                            </div>
-                          ) : (
-                            <div className="pt-4 border-t border-cyan-500/25 grid grid-cols-3 gap-2">
-                              {card.footer.map((f) => (
-                                <div key={f.label}>
-                                  <div className="text-[10px] font-mono-tech text-slate-400">{f.label}</div>
-                                  <div className="text-xs font-mono-tech font-bold text-cyan-300 mt-0.5">{f.value}</div>
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-
-                  <div className="flex items-center justify-center gap-2 mt-2">
-                    {MISSIONS.map((m, idx) => (
-                      <button
-                        key={m.id}
-                        onClick={() => setMissionIdx(idx)}
-                        aria-label={`Select ${m.title}`}
-                        className={`h-2 rounded-full transition-all ${
-                          idx === missionIdx
-                            ? m.locked
-                              ? 'w-7 bg-slate-400'
-                              : 'w-7 bg-[#00E5FF] shadow-[0_0_10px_#00E5FF]'
-                            : 'w-2 bg-slate-700 hover:bg-slate-500'
-                        }`}
-                      />
-                    ))}
-                  </div>
-
-                  <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
-                    {MISSIONS[missionIdx].locked ? (
-                      <React.Fragment>
-                        <button
-                          onClick={() => {
-                            setLockedShake(true);
-                            setTimeout(() => setLockedShake(false), 450);
-                          }}
-                          className="px-6 py-3.5 rounded-xl bg-slate-800/90 border border-slate-700 text-slate-400 font-display text-xl font-bold tracking-wider cursor-not-allowed"
-                        >
-                          🔒 LOCKED // COMING SOON
-                        </button>
-                        <button
-                          onClick={() => setMissionIdx(activeMissionIndex)}
-                          className="px-6 py-3.5 rounded-xl border border-cyan-400 text-cyan-300 hover:bg-cyan-500/15 font-display text-xl font-bold tracking-wider transition-all"
-                        >
-                          RETURN TO ACTIVE MISSION
-                        </button>
-                      </React.Fragment>
-                    ) : (
-                      <React.Fragment>
-                        <button
-                          onClick={() => setHowToPlayOpen(true)}
-                          className="px-6 py-3.5 rounded-xl border border-cyan-500/40 hover:border-cyan-300 text-cyan-200 hover:bg-cyan-500/10 font-display text-xl font-bold tracking-wider transition-all"
-                        >
-                          HOW TO PLAY
-                        </button>
-                        <button
-                          onClick={() => setAct('act2')}
-                          className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#00E5FF] to-[#0284C7] text-[#070B14] font-display text-xl font-extrabold tracking-wider shadow-[0_0_26px_rgba(0,229,255,0.4)] hover:brightness-110 transition-all"
-                        >
-                          START MISSION &gt;
-                        </button>
-                      </React.Fragment>
-                    )}
-                  </div>
-
-                  {howToPlayOpen && (
-                    <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-[#070B14]/80 backdrop-blur-sm">
-                      <div className="glass-card-selected rounded-2xl max-w-lg w-full p-6">
-                        <div className="flex items-center justify-between mb-4">
-                          <h3 className="font-display text-2xl font-extrabold text-white">
-                            MISSION ENGINEERING BRIEFING
-                          </h3>
-                          <button
-                            onClick={() => setHowToPlayOpen(false)}
-                            className="w-8 h-8 rounded-lg border border-slate-700 flex items-center justify-center text-slate-300 hover:border-cyan-400"
-                          >
-                            <IconX className="w-4 h-4" />
-                          </button>
-                        </div>
-                        <div className="space-y-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
-                          <p>
-                            <strong className="text-cyan-300 font-mono-tech">1. LAUNCH &amp; MASS BUDGET:</strong> Select a launch vehicle within your $300M budget and keep total spacecraft mass below the rocket&apos;s payload limit.
-                          </p>
-                          <p>
-                            <strong className="text-cyan-300 font-mono-tech">2. POLAR SOLAR GEOMETRY:</strong> At 89.5° S, sunlight skims the horizon. Vertical deployable solar arrays generate peak grazing power.
-                          </p>
-                          <p>
-                            <strong className="text-cyan-300 font-mono-tech">3. H2O ICE VERIFICATION:</strong> Surface glint can mimic ice (OH false positives). Equip a <span className="text-white font-semibold">Spectrometer</span> and <span className="text-white font-semibold">Lunar Drill</span> for definitive proof!
-                          </p>
-                        </div>
-                        <button
-                          onClick={() => setHowToPlayOpen(false)}
-                          className="mt-6 w-full py-3 rounded-xl bg-cyan-400 text-slate-950 font-display text-lg font-extrabold"
-                        >
-                          UNDERSTOOD
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </section>
-              )}
-
-              {/* ACT 2: LAUNCH VEHICLE SELECTION */}
-              {act === 'act2' && (
-                <section className="relative max-w-6xl mx-auto px-4 sm:px-6 py-6">
-                  <div className="flex flex-wrap items-end justify-between gap-4 mb-2">
-                    <div>
-                      <div className="font-mono-tech text-xs text-cyan-400 tracking-widest">
-                        STAGE 02 // LAUNCH VEHICLE SELECTION
-                      </div>
-                      <h2 className="font-display text-4xl sm:text-5xl font-extrabold text-white">
-                        SELECT LAUNCH VEHICLE
-                      </h2>
-                    </div>
-
-                    {isOverweight && (
-                      <div className="px-3.5 py-1.5 rounded-lg bg-red-500/20 border border-red-400 text-red-300 font-mono-tech text-xs font-bold flex items-center gap-2 animate-pulse">
-                        <IconAlertTriangle className="w-4 h-4" />
-                        <span>OVERWEIGHT ({totalMassKg} kg &gt; {selectedRocket.maxPayloadKg} kg LIMIT)</span>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="relative flex items-center justify-center">
-                    <button
-                      onClick={() => setRocketIdx((i) => (i + 2) % 3)}
-                      aria-label="Previous Launch Vehicle"
-                      className="absolute left-0 sm:left-2 z-20 w-12 h-12 rounded-xl bg-[#0E1629]/75 hover:bg-cyan-500/20 border border-cyan-400/40 hover:border-[#00E5FF] text-cyan-300 flex items-center justify-center shadow-[0_0_20px_rgba(0,229,255,0.2)] hover:-translate-x-0.5 transition-all"
-                    >
-                      <IconChevronsLeft className="w-6 h-6" />
-                    </button>
-
-                    <Rocket3DViewport selectedRocketIdx={rocketIdx} onSelectRocket={setRocketIdx} />
-
-                    <button
-                      onClick={() => setRocketIdx((i) => (i + 1) % 3)}
-                      aria-label="Next Launch Vehicle"
-                      className="absolute right-0 sm:right-2 z-20 w-12 h-12 rounded-xl bg-[#0E1629]/75 hover:bg-cyan-500/20 border border-cyan-400/40 hover:border-[#00E5FF] text-cyan-300 flex items-center justify-center shadow-[0_0_20px_rgba(0,229,255,0.2)] hover:translate-x-0.5 transition-all"
-                    >
-                      <IconChevronsRight className="w-6 h-6" />
-                    </button>
-                  </div>
-
-                  <div className="text-center max-w-2xl mx-auto mt-1">
-                    <div className="font-mono-tech text-xs text-cyan-400 tracking-widest">
-                      {selectedRocket.subtitle}
-                    </div>
-                    <h3 className="font-display text-3xl sm:text-4xl font-extrabold text-white mt-0.5 flex items-center justify-center">
-                      {selectedRocket.name}
-                      <InfoTooltip text={selectedRocket.tooltip} />
-                    </h3>
-
-                    <div className="mt-4 grid grid-cols-3 gap-3 sm:gap-6 py-3 px-4 border-y border-cyan-500/25 font-mono-tech">
-                      <div>
-                        <div className="text-[10px] sm:text-[11px] text-slate-400">LAUNCH COST</div>
-                        <div className="text-base sm:text-xl font-bold text-emerald-400 mt-0.5">
-                          ${selectedRocket.costM}M
-                        </div>
-                      </div>
-                      <div className="border-x border-cyan-500/20">
-                        <div className="text-[10px] sm:text-[11px] text-slate-400">MAX PAYLOAD</div>
-                        <div className="text-base sm:text-xl font-bold text-cyan-300 mt-0.5">
-                          {selectedRocket.maxPayloadKg.toLocaleString()} kg
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-[10px] sm:text-[11px] text-slate-400">RELIABILITY</div>
-                        <div className="text-base sm:text-xl font-bold text-white mt-0.5">
-                          {selectedRocket.reliability}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mt-7 flex items-center justify-between">
-                    <button
-                      onClick={() => setAct('act1')}
-                      className="px-5 py-3 rounded-xl border border-slate-600 hover:border-cyan-400 text-slate-300 hover:text-white font-display text-lg font-bold tracking-wider transition-colors"
-                    >
-                      &lt; BACK
-                    </button>
-                    <button
-                      onClick={() => setAct('act3a')}
-                      className="px-7 py-3 rounded-xl bg-gradient-to-r from-[#00E5FF] to-[#0284C7] text-[#070B14] font-display text-xl font-extrabold tracking-wider shadow-[0_0_24px_rgba(0,229,255,0.4)] hover:brightness-110 transition-all"
-                    >
-                      BUILD SPACECRAFT &gt;
-                    </button>
-                  </div>
-                </section>
-              )}
-
-              {/* ACT 3 (3A & 3B): SPACECRAFT BUILDER */}
-              {(act === 'act3a' || act === 'act3b') && (
-                <section className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
-                  <div className="mb-4">
-                    <div className="font-mono-tech text-xs text-cyan-400 tracking-widest">
-                      STAGE 01 // SPACECRAFT ARCHITECTURE &amp; SUBSYSTEMS
-                    </div>
-                    <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-white">
-                      {act === 'act3a' ? 'CHOOSE LANDER OR ROVER BUS' : 'CONFIGURE FLIGHT SUBSYSTEMS'}
-                    </h2>
-                  </div>
-
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-                    <div className="lg:col-span-5 glass-card rounded-2xl p-4 sm:p-5">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="font-mono-tech text-xs font-bold text-cyan-300">
-                          3D TELEMETRY MODEL
-                        </span>
-                        <span className="font-mono-tech text-[10px] text-slate-400">
-                          DRAG TO ROTATE 360°
-                        </span>
-                      </div>
-
-                      <div className="rounded-xl bg-[#070B14]/70 border border-cyan-500/20 overflow-hidden">
-                        <SpacecraftBuilder3D
-                          platform={selectedPlatform}
-                          structure={selectedStructure}
-                          solar={selectedSolar}
-                          battery={selectedBattery}
-                          antenna={selectedAntenna}
-                          instruments={instrumentIds}
-                        />
-                      </div>
-
-                      <div className="mt-4">
-                        <div className="flex justify-between font-mono-tech text-xs mb-1">
-                          <span className="text-slate-400">MASS VS ROCKET LIMIT</span>
-                          <span className={isOverweight ? 'text-red-400 font-bold' : 'text-cyan-300 font-bold'}>
-                            {totalMassKg} / {effectiveMassLimitKg} kg
-                          </span>
-                        </div>
-                        <div className="h-2.5 bg-slate-800 rounded-full overflow-hidden">
-                          <div
-                            className={`h-full transition-all duration-300 ${
-                              isOverweight ? 'bg-red-500' : 'bg-gradient-to-r from-cyan-400 to-sky-500'
-                            }`}
-                            style={{ width: `${Math.min(100, (totalMassKg / effectiveMassLimitKg) * 100)}%` }}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="mt-3.5 grid grid-cols-3 gap-2.5 font-mono-tech">
-                        <div className="p-2.5 rounded-xl bg-[#070B14]/75 border border-cyan-500/20">
-                          <div className="text-[10px] text-slate-400">GEN POWER</div>
-                          <div className="text-sm font-bold text-cyan-300 mt-0.5">{selectedSolar.powerW} W</div>
-                        </div>
-                        <div className="p-2.5 rounded-xl bg-[#070B14]/75 border border-cyan-500/20">
-                          <div className="text-[10px] text-slate-400">BATTERY</div>
-                          <div className="text-sm font-bold text-emerald-400 mt-0.5">{selectedBattery.capacityWh} Wh</div>
-                        </div>
-                        <div className="p-2.5 rounded-xl bg-[#070B14]/75 border border-cyan-500/20">
-                          <div className="text-[10px] text-slate-400">COMMS</div>
-                          <div className="text-sm font-bold text-sky-300 mt-0.5">{selectedAntenna.rateMbps} Mbps</div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="lg:col-span-7">
-                      {act === 'act3a' ? (
-                        <div>
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            {PLATFORMS.map((plat) => {
-                              const isSelected = platformId === plat.id;
-                              return (
-                                <div
-                                  key={plat.id}
-                                  onClick={() => setPlatformId(plat.id)}
-                                  className={`cursor-pointer rounded-2xl p-5 flex flex-col justify-between ${
-                                    isSelected ? 'glass-card-selected' : 'glass-card hover:border-cyan-400/50'
-                                  }`}
-                                >
-                                  <div>
-                                    <div className="flex items-center justify-between text-xs font-mono-tech mb-2">
-                                      <span className="text-cyan-400">{plat.vendor}</span>
-                                      <span className="text-emerald-400 font-bold">${plat.costM}M</span>
-                                    </div>
-                                    <h3 className="font-display text-2xl font-extrabold text-white flex items-center">
-                                      {plat.name}
-                                      <InfoTooltip text={plat.tooltip} />
-                                    </h3>
-                                    <p className="text-xs text-slate-300 leading-relaxed mt-2 mb-4">
-                                      {plat.description}
-                                    </p>
-
-                                    <div className="space-y-2 pt-3 border-t border-cyan-500/20 font-mono-tech text-xs">
-                                      <div className="flex justify-between">
-                                        <span className="text-slate-400">DRY MASS / LIMIT</span>
-                                        <span className="text-white font-bold">
-                                          {plat.dryMassKg} / {plat.structLimitKg} kg
-                                        </span>
-                                      </div>
-                                      <div className="flex justify-between">
-                                        <span className="text-slate-400">BASE POWER DRAW</span>
-                                        <span className="text-amber-300 font-bold">{plat.basePowerDrawW} W</span>
-                                      </div>
-                                    </div>
-                                  </div>
-
-                                  <button
-                                    type="button"
-                                    onClick={() => setPlatformId(plat.id)}
-                                    className={`mt-5 w-full py-2.5 rounded-xl font-display text-lg font-bold tracking-wider transition-all ${
-                                      isSelected
-                                        ? 'bg-[#00E5FF] text-[#070B14] shadow-[0_0_18px_rgba(0,229,255,0.45)]'
-                                        : 'bg-slate-800/80 border border-cyan-500/30 text-cyan-200 hover:bg-cyan-500/20'
-                                    }`}
-                                  >
-                                    {isSelected ? 'SELECTED' : 'SELECT'}
-                                  </button>
-                                </div>
-                              );
-                            })}
-                          </div>
-
-                          <div className="mt-6 flex items-center justify-between">
-                            <button
-                              onClick={() => setAct('act2')}
-                              className="px-5 py-3 rounded-xl border border-slate-600 hover:border-cyan-400 text-slate-300 font-display text-lg font-bold"
-                            >
-                              BACK TO ROCKET
-                            </button>
-                            <button
-                              disabled={!platformId}
-                              onClick={() => {
-                                setBuilderTab(0);
-                                setAct('act3b');
-                              }}
-                              className="px-7 py-3 rounded-xl bg-gradient-to-r from-[#00E5FF] to-[#0284C7] text-[#070B14] font-display text-xl font-extrabold tracking-wider shadow-[0_0_24px_rgba(0,229,255,0.4)] disabled:opacity-40"
-                            >
-                              CONFIRM PLATFORM &gt;
-                            </button>
-                          </div>
-                        </div>
-                      ) : (
-                        <div>
-                          <div className="flex items-center justify-between mb-3">
-                            <span className="font-mono-tech text-xs text-slate-300">
-                              ACTIVE BUS: <strong className="text-cyan-300">{selectedPlatform.name}</strong>
-                            </span>
-                            <button
-                              onClick={() => setAct('act3a')}
-                              className="px-3 py-1 rounded-lg border border-cyan-500/35 hover:border-cyan-300 font-mono-tech text-[11px] text-cyan-300"
-                            >
-                              CHANGE PLATFORM
-                            </button>
-                          </div>
-
-                          <div className="grid grid-cols-5 gap-1.5 mb-4">
-                            {['1. STRUCTURE', '2. SOLAR', '3. BATTERY', '4. ANTENNA', '5. INSTRUMENT'].map((label, idx) => {
-                              const active = builderTab === idx;
-                              return (
-                                <button
-                                  key={label}
-                                  onClick={() => setBuilderTab(idx)}
-                                  className={`py-2 px-1.5 rounded-lg font-mono-tech text-[10px] sm:text-xs font-bold truncate transition-all ${
-                                    active
-                                      ? 'bg-cyan-400 text-[#070B14] shadow-[0_0_16px_rgba(0,229,255,0.4)]'
-                                      : 'bg-[#0E1629] border border-cyan-500/25 text-slate-300 hover:border-cyan-400'
-                                  }`}
-                                >
-                                  {label}
-                                </button>
-                              );
-                            })}
-                          </div>
-
-                          <div className="space-y-3">
-                            {builderTab === 0 &&
-                              SUBSYSTEMS.structure.map((item) => {
-                                const sel = structureId === item.id;
-                                return (
-                                  <div
-                                    key={item.id}
-                                    onClick={() => setStructureId(item.id)}
-                                    className={`cursor-pointer rounded-xl p-4 flex items-center justify-between gap-4 ${
-                                      sel ? 'glass-card-selected' : 'glass-card hover:border-cyan-400/50'
-                                    }`}
-                                  >
-                                    <div>
-                                      <div className="font-display text-xl font-bold text-white flex items-center">
-                                        {item.name}
-                                        <InfoTooltip text={item.tooltip} />
-                                      </div>
-                                      <div className="font-mono-tech text-xs text-cyan-300 mt-0.5">{item.statLabel}</div>
-                                    </div>
-                                    <div className="text-right font-mono-tech text-xs">
-                                      <div className="text-emerald-400 font-bold">${item.costM}M</div>
-                                      <div className="text-slate-400">{item.massKg} kg</div>
-                                    </div>
-                                  </div>
-                                );
-                              })}
-
-                            {builderTab === 1 &&
-                              SUBSYSTEMS.solar.map((item) => {
-                                const sel = solarId === item.id;
-                                return (
-                                  <div
-                                    key={item.id}
-                                    onClick={() => setSolarId(item.id)}
-                                    className={`cursor-pointer rounded-xl p-4 flex items-center justify-between gap-4 ${
-                                      sel ? 'glass-card-selected' : 'glass-card hover:border-cyan-400/50'
-                                    }`}
-                                  >
-                                    <div>
-                                      <div className="font-display text-xl font-bold text-white flex items-center">
-                                        {item.name}
-                                        <InfoTooltip text={item.tooltip} />
-                                      </div>
-                                      <div className="font-mono-tech text-xs text-cyan-300 mt-0.5">{item.statLabel}</div>
-                                    </div>
-                                    <div className="text-right font-mono-tech text-xs">
-                                      <div className="text-emerald-400 font-bold">${item.costM}M</div>
-                                      <div className="text-slate-400">{item.massKg} kg</div>
-                                    </div>
-                                  </div>
-                                );
-                              })}
-
-                            {builderTab === 2 &&
-                              SUBSYSTEMS.battery.map((item) => {
-                                const sel = batteryId === item.id;
-                                return (
-                                  <div
-                                    key={item.id}
-                                    onClick={() => setBatteryId(item.id)}
-                                    className={`cursor-pointer rounded-xl p-4 flex items-center justify-between gap-4 ${
-                                      sel ? 'glass-card-selected' : 'glass-card hover:border-cyan-400/50'
-                                    }`}
-                                  >
-                                    <div>
-                                      <div className="font-display text-xl font-bold text-white flex items-center">
-                                        {item.name}
-                                        <InfoTooltip text={item.tooltip} />
-                                      </div>
-                                      <div className="font-mono-tech text-xs text-emerald-300 mt-0.5">{item.statLabel}</div>
-                                    </div>
-                                    <div className="text-right font-mono-tech text-xs">
-                                      <div className="text-emerald-400 font-bold">${item.costM}M</div>
-                                      <div className="text-slate-400">{item.massKg} kg</div>
-                                    </div>
-                                  </div>
-                                );
-                              })}
-
-                            {builderTab === 3 &&
-                              SUBSYSTEMS.antenna.map((item) => {
-                                const sel = antennaId === item.id;
-                                return (
-                                  <div
-                                    key={item.id}
-                                    onClick={() => setAntennaId(item.id)}
-                                    className={`cursor-pointer rounded-xl p-4 flex items-center justify-between gap-4 ${
-                                      sel ? 'glass-card-selected' : 'glass-card hover:border-cyan-400/50'
-                                    }`}
-                                  >
-                                    <div>
-                                      <div className="font-display text-xl font-bold text-white flex items-center">
-                                        {item.name}
-                                        <InfoTooltip text={item.tooltip} />
-                                      </div>
-                                      <div className="font-mono-tech text-xs text-sky-300 mt-0.5">{item.statLabel}</div>
-                                    </div>
-                                    <div className="text-right font-mono-tech text-xs">
-                                      <div className="text-emerald-400 font-bold">${item.costM}M</div>
-                                      <div className="text-slate-400">{item.massKg} kg</div>
-                                    </div>
-                                  </div>
-                                );
-                              })}
-
-                            {builderTab === 4 &&
-                              SUBSYSTEMS.instruments.map((item) => {
-                                const added = instrumentIds.includes(item.id);
-                                return (
-                                  <div
-                                    key={item.id}
-                                    onClick={() => toggleInstrument(item.id)}
-                                    className={`cursor-pointer rounded-xl p-4 flex items-center justify-between gap-4 ${
-                                      added ? 'glass-card-selected' : 'glass-card hover:border-cyan-400/50'
-                                    }`}
-                                  >
-                                    <div>
-                                      <div className="font-display text-xl font-bold text-white flex items-center">
-                                        {item.name}
-                                        <InfoTooltip text={item.tooltip} />
-                                      </div>
-                                      <div className="font-mono-tech text-xs text-amber-300 mt-0.5">
-                                        {item.statLabel} • ${item.costM}M • {item.massKg} kg
-                                      </div>
-                                    </div>
-                                    <button
-                                      type="button"
-                                      className={`px-4 py-1.5 rounded-lg font-mono-tech text-xs font-bold transition-colors ${
-                                        added
-                                          ? 'bg-cyan-400 text-slate-950'
-                                          : 'bg-slate-800 border border-cyan-500/40 text-cyan-300'
-                                      }`}
-                                    >
-                                      {added ? 'ADDED' : 'ADD'}
-                                    </button>
-                                  </div>
-                                );
-                              })}
-                          </div>
-
-                          <div className="mt-6 flex items-center justify-between">
-                            <button
-                              onClick={() => {
-                                if (builderTab > 0) setBuilderTab((t) => t - 1);
-                                else setAct('act3a');
-                              }}
-                              className="px-5 py-3 rounded-xl border border-slate-600 hover:border-cyan-400 text-slate-300 font-display text-lg font-bold"
-                            >
-                              &lt; BACK
-                            </button>
-
-                            {builderTab < 4 ? (
-                              <button
-                                onClick={() => setBuilderTab((t) => t + 1)}
-                                className="px-7 py-3 rounded-xl bg-gradient-to-r from-[#00E5FF] to-[#0284C7] text-[#070B14] font-display text-xl font-extrabold tracking-wider shadow-[0_0_22px_rgba(0,229,255,0.35)]"
-                              >
-                                NEXT &gt;
-                              </button>
-                            ) : (
-                              <button
-                                disabled={instrumentIds.length === 0}
-                                onClick={() => setAct('act4')}
-                                className="px-7 py-3 rounded-xl bg-gradient-to-r from-[#00E5FF] to-[#0284C7] text-[#070B14] font-display text-xl font-extrabold tracking-wider shadow-[0_0_24px_rgba(0,229,255,0.45)] disabled:opacity-40 disabled:cursor-not-allowed"
-                              >
-                                CONFIRM SPACECRAFT &gt;
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </section>
-              )}
-
-              {/* ACT 4: SELECT LUNAR ORBIT */}
-              {act === 'act4' && (
-                <section className="relative max-w-6xl mx-auto px-4 sm:px-6 py-6">
-                  <div>
-                    <div className="font-mono-tech text-xs text-cyan-400 tracking-widest">
-                      STAGE 03 // CISLUNAR TRAJECTORY INSERTION
-                    </div>
-                    <h2 className="font-display text-4xl sm:text-5xl font-extrabold text-white">
-                      SELECT LUNAR ORBIT
-                    </h2>
-                  </div>
-
-                  <div className="relative flex items-center justify-center my-2">
-                    <button
-                      onClick={() => setOrbitIdx((i) => (i + 2) % 3)}
-                      className="absolute left-0 sm:left-2 z-20 w-12 h-12 rounded-xl bg-[#0E1629]/75 hover:bg-cyan-500/20 border border-cyan-400/40 hover:border-[#00E5FF] text-cyan-300 flex items-center justify-center transition-all"
-                    >
-                      <IconChevronsLeft className="w-6 h-6" />
-                    </button>
-
-                    <LunarOrbit3DViewport selectedOrbitIdx={orbitIdx} onSelectOrbit={setOrbitIdx} />
-
-                    <button
-                      onClick={() => setOrbitIdx((i) => (i + 1) % 3)}
-                      className="absolute right-0 sm:right-2 z-20 w-12 h-12 rounded-xl bg-[#0E1629]/75 hover:bg-cyan-500/20 border border-cyan-400/40 hover:border-[#00E5FF] text-cyan-300 flex items-center justify-center transition-all"
-                    >
-                      <IconChevronsRight className="w-6 h-6" />
-                    </button>
-                  </div>
-
-                  <div className="text-center max-w-3xl mx-auto">
-                    <div className="font-mono-tech text-xs text-cyan-400 tracking-widest">
-                      {selectedOrbit.subtitle}
-                    </div>
-                    <h3 className="font-display text-3xl sm:text-4xl font-extrabold text-white mt-0.5 flex items-center justify-center">
-                      {selectedOrbit.name}
-                      <InfoTooltip text={selectedOrbit.tooltip} />
-                    </h3>
-
-                    <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3 py-3.5 px-4 border-y border-cyan-500/25 font-mono-tech">
-                      <div>
-                        <div className="text-[10px] text-slate-400">ORBITAL PERIOD</div>
-                        <div className="text-sm sm:text-base font-bold text-white mt-0.5">{selectedOrbit.period}</div>
-                      </div>
-                      <div>
-                        <div className="text-[10px] text-slate-400">SOLAR ILLUMINATION</div>
-                        <div className="text-sm sm:text-base font-bold text-cyan-300 mt-0.5">
-                          {selectedOrbit.illumination}
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-[10px] text-slate-400">EARTH COMM WINDOW</div>
-                        <div className="text-sm sm:text-base font-bold text-sky-300 mt-0.5">
-                          {selectedOrbit.commWindow}
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-[10px] text-slate-400">POWER MODIFIER</div>
-                        <div
-                          className={`text-sm sm:text-base font-bold mt-0.5 ${
-                            selectedOrbit.powerMultiplier >= 1 ? 'text-emerald-400' : 'text-amber-400'
-                          }`}
-                        >
-                          {selectedOrbit.powerModLabel}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mt-7 flex items-center justify-between">
-                    <button
-                      onClick={() => setAct('act3b')}
-                      className="px-5 py-3 rounded-xl border border-slate-600 hover:border-cyan-400 text-slate-300 font-display text-lg font-bold"
-                    >
-                      &lt; BACK TO BUILDER
-                    </button>
-                    <button
-                      onClick={() => {
-                        setResourceNode(0);
-                        setAct('act5');
-                      }}
-                      className="px-7 py-3 rounded-xl bg-gradient-to-r from-[#00E5FF] to-[#0284C7] text-[#070B14] font-display text-xl font-extrabold tracking-wider shadow-[0_0_24px_rgba(0,229,255,0.4)]"
-                    >
-                      ALLOCATE POWER &gt;
-                    </button>
-                  </div>
-                </section>
-              )}
-
-              {/* ACT 5: RESOURCE ALLOCATION */}
-              {act === 'act5' && (
-                <section className="max-w-4xl mx-auto px-4 sm:px-6 py-7">
-                  <div className="text-center mb-8">
-                    <div className="font-mono-tech text-xs text-cyan-400 tracking-widest">
-                      STAGE 04 // SYSTEMS BUDGET &amp; TELEMETRY VALIDATION
-                    </div>
-                    <h2 className="font-display text-4xl font-extrabold text-white">
-                      RESOURCE ALLOCATION
-                    </h2>
-                  </div>
-
-                  <div className="relative max-w-2xl mx-auto mb-8 pt-7">
-                    <div className="absolute top-[45px] left-[12%] right-[12%] h-[2px] bg-cyan-500/35" />
-                    <div className="relative grid grid-cols-4 gap-2">
-                      {[
-                        { num: 1, tag: 'NODE 01', label: 'View Available Resources' },
-                        { num: 2, tag: 'NODE 02', label: 'Allocate Power' },
-                        { num: 3, tag: 'NODE 03', label: 'Manage Communication' },
-                        { num: 4, tag: 'NODE 04', label: 'Review Resource Status' }
-                      ].map((n, idx) => {
-                        const active = resourceNode === idx;
-                        return (
-                          <div key={n.num} className="flex flex-col items-center text-center relative">
-                            {active && (
-                              <div className="absolute -top-7 px-2.5 py-0.5 rounded bg-[#00E5FF] text-[#070B14] font-mono-tech text-[10px] font-bold shadow-[0_0_12px_rgba(0,229,255,0.7)]">
-                                {n.tag}
-                                <div className="w-2 h-2 bg-[#00E5FF] rotate-45 mx-auto -mb-1.5" />
-                              </div>
-                            )}
-                            <button
-                              onClick={() => setResourceNode(idx)}
-                              className={`w-9 h-9 rounded-full font-mono-tech text-sm font-bold flex items-center justify-center transition-all z-10 ${
-                                active
-                                  ? 'bg-[#070B14] border-2 border-[#00E5FF] text-[#00E5FF] shadow-[0_0_18px_rgba(0,229,255,0.65)] scale-110'
-                                  : idx < resourceNode
-                                  ? 'bg-cyan-500/25 border border-cyan-400 text-cyan-200'
-                                  : 'bg-[#0E1629] border border-slate-700 text-slate-400'
-                              }`}
-                            >
-                              {n.num}
-                            </button>
-                            <span
-                              className={`mt-2 text-[11px] leading-tight max-w-[110px] ${
-                                active ? 'text-cyan-300 font-semibold' : 'text-slate-400'
-                              }`}
-                            >
-                              {n.label}
-                            </span>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  <div className="glass-card-selected rounded-2xl p-6 sm:p-7">
-                    {resourceNode === 0 && (
-                      <div>
-                        <h3 className="font-display text-2xl font-extrabold text-white mb-4">
-                          AVAILABLE SPACECRAFT RESOURCES
-                        </h3>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono-tech">
-                          <div className="p-4 rounded-xl bg-[#070B14]/80 border border-cyan-500/25">
-                            <div className="text-xs text-slate-400">SOLAR POWER GENERATION (WITH ORBIT)</div>
-                            <div className="text-2xl font-bold text-cyan-300 mt-1">{effectiveSolarW} W</div>
-                            <div className="text-[11px] text-slate-400 mt-1">
-                              Base {selectedSolar.powerW} W ({selectedOrbit.powerModLabel})
-                            </div>
-                          </div>
-
-                          <div className="p-4 rounded-xl bg-[#070B14]/80 border border-cyan-500/25">
-                            <div className="text-xs text-slate-400">BATTERY STORAGE CAPACITY</div>
-                            <div className="text-2xl font-bold text-emerald-400 mt-1">
-                              {selectedBattery.capacityWh} Wh
-                            </div>
-                            <div className="text-[11px] text-slate-400 mt-1">{selectedBattery.name}</div>
-                          </div>
-
-                          <div className="p-4 rounded-xl bg-[#070B14]/80 border border-cyan-500/25">
-                            <div className="flex justify-between text-xs text-slate-400">
-                              <span>TOTAL MASS VS ROCKET LIMIT</span>
-                              <span className={isOverweight ? 'text-red-400 font-bold' : 'text-cyan-300'}>
-                                {Math.round((totalMassKg / effectiveMassLimitKg) * 100)}%
-                              </span>
-                            </div>
-                            <div className="text-xl font-bold text-white mt-1">
-                              {totalMassKg} / {effectiveMassLimitKg} kg
-                            </div>
-                            <div className="h-2 bg-slate-800 rounded-full overflow-hidden mt-2">
-                              <div
-                                className={`h-full ${isOverweight ? 'bg-red-500' : 'bg-cyan-400'}`}
-                                style={{ width: `${Math.min(100, (totalMassKg / effectiveMassLimitKg) * 100)}%` }}
-                              />
-                            </div>
-                          </div>
-
-                          <div className="p-4 rounded-xl bg-[#070B14]/80 border border-cyan-500/25">
-                            <div className="text-xs text-slate-400">COMMUNICATION BANDWIDTH</div>
-                            <div className="text-2xl font-bold text-sky-300 mt-1">{effectiveCommsMbps} Mbps</div>
-                            <div className="text-[11px] text-slate-400 mt-1">{selectedAntenna.name}</div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-
-                    {resourceNode === 1 && (
-                      <div>
-                        <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
-                          <h3 className="font-display text-2xl font-extrabold text-white">
-                            SUBSYSTEM POWER ALLOCATION
-                          </h3>
-                          <div className="flex items-center gap-3">
-                            <span
-                              className={`font-mono-tech text-xs font-bold px-3 py-1 rounded-lg border ${
-                                isPowerOverAllocated
-                                  ? 'bg-red-500/20 border-red-400 text-red-300'
-                                  : 'bg-cyan-500/15 border-cyan-400/40 text-cyan-300'
-                              }`}
-                            >
-                              {totalAllocatedW} W / {effectiveSolarW} W AVAILABLE
-                            </span>
-                            {isPowerOverAllocated && (
-                              <button
-                                onClick={autoBalancePower}
-                                className="px-3 py-1 rounded-lg bg-amber-400 text-slate-950 font-mono-tech text-xs font-bold hover:brightness-110"
-                              >
-                                AUTO-BALANCE
-                              </button>
-                            )}
-                          </div>
-                        </div>
-
-                        {isPowerOverAllocated && (
-                          <div className="mb-4 p-2.5 rounded-lg bg-red-950/50 border border-red-500/40 font-mono-tech text-xs text-red-300">
-                            OVER-ALLOCATED: Continuous draw exceeds solar array output. Battery discharge will occur.
-                          </div>
-                        )}
-
-                        <div className="space-y-4">
-                          {[
-                            { key: 'science', label: 'Science Instruments', min: 25, max: 160 },
-                            { key: 'thermal', label: 'Cryogenic Thermal Heaters', min: 30, max: 140 },
-                            { key: 'comms', label: 'Transponder & Earth Downlink', min: 20, max: 120 },
-                            { key: 'avionics', label: 'Avionics & Surface Mobility Drive', min: 35, max: 140 }
-                          ].map((s) => (
-                            <div key={s.key} className="p-3 rounded-xl bg-[#070B14]/75 border border-cyan-500/20">
-                              <div className="flex justify-between font-mono-tech text-xs mb-2">
-                                <span className="text-slate-200">{s.label}</span>
-                                <span className="text-cyan-300 font-bold">{powerSliders[s.key]} W</span>
-                              </div>
-                              <input
-                                type="range"
-                                min={s.min}
-                                max={s.max}
-                                value={powerSliders[s.key]}
-                                onChange={(e) =>
-                                  setPowerSliders((prev) => ({ ...prev, [s.key]: Number(e.target.value) }))
-                                }
-                                className="cyber-slider"
-                              />
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {resourceNode === 2 && (
-                      <div>
-                        <div className="flex items-center justify-between mb-4">
-                          <h3 className="font-display text-2xl font-extrabold text-white">
-                            COMMUNICATION PRIORITY MODE
-                          </h3>
-                          <span className="font-mono-tech text-xs text-cyan-300">
-                            HARDWARE: {selectedAntenna.name}
-                          </span>
-                        </div>
-
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                          <div
-                            onClick={() => setCommMode('high_res')}
-                            className={`cursor-pointer rounded-xl p-5 border transition-all ${
-                              commMode === 'high_res'
-                                ? 'bg-cyan-500/15 border-[#00E5FF] shadow-[0_0_20px_rgba(0,229,255,0.22)]'
-                                : 'bg-[#070B14]/80 border-cyan-500/25 hover:border-cyan-400'
-                            }`}
-                          >
-                            <div className="font-mono-tech text-[11px] text-cyan-400 mb-1">HIGH-RESOLUTION PRIORITY</div>
-                            <h4 className="font-display text-xl font-bold text-white mb-2">
-                              FULL-SPECTRUM SCIENCE STREAM
-                            </h4>
-                            <p className="text-xs text-slate-300 mb-4">
-                              Transmits uncompressed multi-channel neutron and NIR spectra plus high-res stereo imagery.
-                            </p>
-                            <div className="font-mono-tech text-xs font-bold text-emerald-400">
-                              SCIENCE YIELD: +15% BONUS
-                            </div>
-                          </div>
-
-                          <div
-                            onClick={() => setCommMode('failsafe')}
-                            className={`cursor-pointer rounded-xl p-5 border transition-all ${
-                              commMode === 'failsafe'
-                                ? 'bg-cyan-500/15 border-[#00E5FF] shadow-[0_0_20px_rgba(0,229,255,0.22)]'
-                                : 'bg-[#070B14]/80 border-cyan-500/25 hover:border-cyan-400'
-                            }`}
-                          >
-                            <div className="font-mono-tech text-[11px] text-sky-400 mb-1">FAIL-SAFE PRIORITY</div>
-                            <h4 className="font-display text-xl font-bold text-white mb-2">
-                              COMPRESSED TELEMETRY GUARANTEED
-                            </h4>
-                            <p className="text-xs text-slate-300 mb-4">
-                              Forward-error-corrected packet framing resilient against low-horizon lunar ridge multipath interference.
-                            </p>
-                            <div className="font-mono-tech text-xs font-bold text-cyan-300">
-                              DELIVERY RATE: 100% LOCKED
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-
-                    {resourceNode === 3 && (
-                      <div>
-                        <h3 className="font-display text-2xl font-extrabold text-white mb-4">
-                          5-AXIS RESOURCE READINESS RADAR
-                        </h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-                          <PentagonRadarChart
-                            metrics={[
-                              {
-                                label: 'BUDGET',
-                                value: Math.max(10, Math.min(100, (remainingBudgetM / TOTAL_MISSION_BUDGET_M) * 140))
-                              },
-                              {
-                                label: 'MASS',
-                                value: isOverweight
-                                  ? 28
-                                  : Math.max(45, 100 - Math.abs(totalMassKg / effectiveMassLimitKg - 0.72) * 80)
-                              },
-                              {
-                                label: 'POWER',
-                                value: Math.max(25, Math.min(100, (effectiveSolarW / 380) * 100))
-                              },
-                              {
-                                label: 'BATTERY',
-                                value: Math.max(35, Math.min(100, (selectedBattery.capacityWh / 1150) * 100))
-                              },
-                              {
-                                label: 'COMMS',
-                                value: Math.max(30, Math.min(100, (effectiveCommsMbps / 55) * 100))
-                              }
-                            ]}
-                          />
-
-                          <div className="p-4 rounded-xl bg-[#070B14]/85 border border-cyan-500/30 font-mono-tech text-xs space-y-2.5">
-                            <div className="text-cyan-400 font-bold tracking-wider pb-1.5 border-b border-cyan-500/20">
-                              TELEMETRY VERIFIED
-                            </div>
-                            <div className="flex justify-between">
-                              <span className="text-slate-400">REMAINING BUDGET</span>
-                              <span className={isOverBudget ? 'text-red-400 font-bold' : 'text-emerald-400 font-bold'}>
-                                ${remainingBudgetM}M
-                              </span>
-                            </div>
-                            <div className="flex justify-between">
-                              <span className="text-slate-400">PAYLOAD MASS</span>
-                              <span className={isOverweight ? 'text-red-400 font-bold' : 'text-cyan-300 font-bold'}>
-                                {totalMassKg} / {effectiveMassLimitKg} kg
-                              </span>
-                            </div>
-                            <div className="flex justify-between">
-                              <span className="text-slate-400">ORBITAL SOLAR OUTPUT</span>
-                              <span className="text-cyan-300 font-bold">{effectiveSolarW} W</span>
-                            </div>
-                            <div className="flex justify-between">
-                              <span className="text-slate-400">ENERGY RESERVE</span>
-                              <span className="text-emerald-400 font-bold">{selectedBattery.capacityWh} Wh</span>
-                            </div>
-                            <div className="flex justify-between">
-                              <span className="text-slate-400">DOWNLINK BANDWIDTH</span>
-                              <span className="text-sky-300 font-bold">{effectiveCommsMbps} Mbps</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="mt-6 flex items-center justify-between">
-                    {resourceNode > 0 ? (
-                      <button
-                        onClick={() => setResourceNode((n) => n - 1)}
-                        className="px-5 py-3 rounded-xl border border-slate-600 hover:border-cyan-400 text-slate-300 font-display text-lg font-bold"
-                      >
-                        &lt; PREV STEP
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => setAct('act3b')}
-                        className="px-5 py-3 rounded-xl border border-slate-600 hover:border-cyan-400 text-slate-300 font-display text-lg font-bold"
-                      >
-                        MODIFY CONFIG
-                      </button>
-                    )}
-
-                    {resourceNode < 3 ? (
-                      <button
-                        onClick={() => setResourceNode((n) => n + 1)}
-                        className="px-7 py-3 rounded-xl bg-gradient-to-r from-[#00E5FF] to-[#0284C7] text-[#070B14] font-display text-xl font-extrabold tracking-wider shadow-[0_0_22px_rgba(0,229,255,0.35)]"
-                      >
-                        NEXT STEP &gt;
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => setAct('act6a')}
-                        className="px-7 py-3 rounded-xl bg-gradient-to-r from-[#00E5FF] to-[#0284C7] text-[#070B14] font-display text-xl font-extrabold tracking-wider shadow-[0_0_26px_rgba(0,229,255,0.45)]"
-                      >
-                        PROCEED TO LAUNCH &gt;
-                      </button>
-                    )}
-                  </div>
-                </section>
-              )}
-
-              {/* ACT 6A: PRE-LAUNCH GATE */}
-              {act === 'act6a' && (
-                <section className="max-w-5xl mx-auto px-4 sm:px-6 py-7">
-                  <div className="mb-5">
-                    <div className="font-mono-tech text-xs text-cyan-400 tracking-widest">
-                      STAGE 05 // FLIGHT READINESS REVIEW (FRR)
-                    </div>
-                    <h2 className="font-display text-4xl font-extrabold text-white">
-                      PRE-LAUNCH SUMMARY &amp; GATE
-                    </h2>
-                  </div>
-
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                    <div className="lg:col-span-6 glass-card rounded-2xl p-5">
-                      <h3 className="font-display text-2xl font-bold text-cyan-300 mb-3">
-                        INTEGRATED SPACECRAFT BLUEPRINT
-                      </h3>
-                      <div className="space-y-2.5 font-mono-tech text-xs">
-                        <div className="p-2.5 rounded-lg bg-[#070B14]/80 flex justify-between">
-                          <span className="text-slate-400">LAUNCH VEHICLE</span>
-                          <span className="text-white font-bold">{selectedRocket.name}</span>
-                        </div>
-                        <div className="p-2.5 rounded-lg bg-[#070B14]/80 flex justify-between">
-                          <span className="text-slate-400">SPACECRAFT BUS</span>
-                          <span className="text-white font-bold">{selectedPlatform.name}</span>
-                        </div>
-                        <div className="p-2.5 rounded-lg bg-[#070B14]/80 flex justify-between">
-                          <span className="text-slate-400">LUNAR ORBIT</span>
-                          <span className="text-cyan-300 font-bold">{selectedOrbit.name}</span>
-                        </div>
-                        <div className="p-2.5 rounded-lg bg-[#070B14]/80 flex justify-between">
-                          <span className="text-slate-400">STRUCTURE</span>
-                          <span className="text-slate-200">{selectedStructure.name}</span>
-                        </div>
-                        <div className="p-2.5 rounded-lg bg-[#070B14]/80 flex justify-between">
-                          <span className="text-slate-400">SOLAR &amp; BATTERY</span>
-                          <span className="text-slate-200">
-                            {selectedSolar.name} / {selectedBattery.statLabel}
-                          </span>
-                        </div>
-                        <div className="p-2.5 rounded-lg bg-[#070B14]/80 flex justify-between">
-                          <span className="text-slate-400">ANTENNA</span>
-                          <span className="text-slate-200">{selectedAntenna.name}</span>
-                        </div>
-                        <div className="p-2.5 rounded-lg bg-[#070B14]/80">
-                          <div className="text-slate-400 mb-1.5">PAYLOAD INSTRUMENTS</div>
-                          <div className="flex flex-wrap gap-1.5">
-                            {selectedInstruments.map((inst) => (
-                              <span
-                                key={inst.id}
-                                className="px-2.5 py-1 rounded bg-cyan-500/20 border border-cyan-400/40 text-cyan-200 text-[11px]"
-                              >
-                                {inst.name}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="lg:col-span-6 space-y-4">
-                      <div
-                        className={`rounded-2xl p-5 border ${
-                          isOverBudget
-                            ? 'bg-red-950/35 border-red-500'
-                            : 'glass-card border-emerald-500/40'
-                        }`}
-                      >
-                        <div className="flex items-center justify-between font-mono-tech text-xs mb-2">
-                          <span className="font-bold text-white">MISSION BUDGET GATE (HARD LIMIT: $300M)</span>
-                          <span className={isOverBudget ? 'text-red-400 font-bold' : 'text-emerald-400 font-bold'}>
-                            {isOverBudget ? 'FAILED' : 'CLEARED'}
-                          </span>
-                        </div>
-                        <div className="flex justify-between font-mono-tech text-xs text-slate-300 mb-2">
-                          <span>SPENT: ${totalSpentM}M</span>
-                          <span>REMAINING: ${remainingBudgetM}M</span>
-                        </div>
-                        <div className="h-3 bg-slate-800 rounded-full overflow-hidden">
-                          <div
-                            className={`h-full ${isOverBudget ? 'bg-red-500' : 'bg-emerald-400'}`}
-                            style={{ width: `${Math.min(100, (totalSpentM / TOTAL_MISSION_BUDGET_M) * 100)}%` }}
-                          />
-                        </div>
-                        {isOverBudget && (
-                          <p className="mt-2.5 font-mono-tech text-xs text-red-300">
-                            HARD GATE LOCK: Mission cost exceeds $300M appropriation. Modify hardware or select a lower-cost rocket.
-                          </p>
-                        )}
-                      </div>
-
-                      <div
-                        className={`rounded-2xl p-5 border ${
-                          isOverweight
-                            ? 'bg-amber-950/35 border-amber-500'
-                            : 'glass-card border-cyan-500/35'
-                        }`}
-                      >
-                        <div className="flex items-center justify-between font-mono-tech text-xs mb-2">
-                          <span className="font-bold text-white">SPACECRAFT MASS VS ROCKET LIMIT (SOFT GATE)</span>
-                          <span className={isOverweight ? 'text-amber-400 font-bold' : 'text-cyan-300 font-bold'}>
-                            {isOverweight ? 'OVERWEIGHT WARNING' : 'NOMINAL'}
-                          </span>
-                        </div>
-                        <div className="flex justify-between font-mono-tech text-xs text-slate-300 mb-2">
-                          <span>TOTAL MASS: {totalMassKg} kg</span>
-                          <span>MAX PAYLOAD: {effectiveMassLimitKg} kg</span>
-                        </div>
-                        <div className="h-3 bg-slate-800 rounded-full overflow-hidden">
-                          <div
-                            className={`h-full ${isOverweight ? 'bg-amber-500' : 'bg-cyan-400'}`}
-                            style={{ width: `${Math.min(100, (totalMassKg / effectiveMassLimitKg) * 100)}%` }}
-                          />
-                        </div>
-                        {isOverweight && (
-                          <p className="mt-2.5 font-mono-tech text-xs text-amber-300">
-                            SOFT GATE ADVISORY: Excess mass will deplete terminal descent propellant margins. Launch override permitted.
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mt-7 flex items-center justify-between">
-                    <button
-                      onClick={() => setAct('act3b')}
-                      className="px-5 py-3 rounded-xl border border-slate-600 hover:border-cyan-400 text-slate-300 font-display text-lg font-bold"
-                    >
-                      MODIFY HARDWARE
-                    </button>
-                    <button
-                      disabled={isOverBudget}
-                      onClick={() => setAct('act6b')}
-                      className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#00E5FF] to-[#0284C7] text-[#070B14] font-display text-2xl font-extrabold tracking-wider shadow-[0_0_28px_rgba(0,229,255,0.45)] hover:brightness-110 disabled:opacity-35 disabled:cursor-not-allowed transition-all"
-                    >
-                      IGNITE &amp; LAUNCH 🚀
-                    </button>
-                  </div>
-                </section>
-              )}
-
-              {/* ACT 6B: LUNAR TRANSFER CUTSCENE */}
-              {act === 'act6b' && (
-                <LunarTransferCutscene
-                  rocket={selectedRocket}
-                  platform={selectedPlatform}
-                  solar={selectedSolar}
-                  antenna={selectedAntenna}
-                  instruments={instrumentIds}
-                  orbit={selectedOrbit}
-                  isOverweight={isOverweight}
-                  onComplete={() => setAct('act6c')}
-                />
-              )}
-
-              {/* ACT 6C: SOUTH POLE LANDING ZONE */}
-              {act === 'act6c' && (
-                <section className="max-w-7xl mx-auto px-4 sm:px-6 py-5">
-                  <div className="mb-4">
-                    <div className="font-mono-tech text-xs text-cyan-400 tracking-widest">
-                      STAGE 05 // TERMINAL TARGETING
-                    </div>
-                    <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-white">
-                      SELECT LUNAR SOUTH POLE LANDING ZONE
-                    </h2>
-                  </div>
-
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-                    <div className="lg:col-span-7">
-                      <SouthPole3DLandingSelector
-                        selectedSiteId={landingSiteId}
-                        onSelectSite={setLandingSiteId}
-                      />
-                    </div>
-
-                    <div className="lg:col-span-5 space-y-4">
-                      <div className="glass-card rounded-2xl p-4">
-                        <div className="font-mono-tech text-xs text-cyan-300 font-bold mb-2.5">
-                          1. LANDING SITE SELECTION (4 CANDIDATES)
-                        </div>
-                        <div className="space-y-2">
-                          {LANDING_SITES.map((site) => {
-                            const active = landingSiteId === site.id;
-                            return (
-                              <div
-                                key={site.id}
-                                onClick={() => setLandingSiteId(site.id)}
-                                className={`cursor-pointer rounded-xl p-3 border transition-all ${
-                                  active
-                                    ? 'bg-cyan-500/15 border-[#00E5FF] shadow-[0_0_16px_rgba(0,229,255,0.2)]'
-                                    : 'bg-[#070B14]/75 border-cyan-500/20 hover:border-cyan-400/50'
-                                }`}
-                              >
-                                <div className="flex items-center justify-between">
-                                  <span className="font-display text-lg font-bold text-white">{site.name}</span>
-                                  <span className="font-mono-tech text-[10px] text-slate-400">{site.coords}</span>
-                                </div>
-                                <div className="mt-1 grid grid-cols-3 gap-2 font-mono-tech text-[11px]">
-                                  <div>
-                                    <span className="text-slate-400">SLOPE: </span>
-                                    <span className="text-white font-bold">{site.slope}</span>
-                                  </div>
-                                  <div>
-                                    <span className="text-slate-400">SOLAR: </span>
-                                    <span
-                                      className={`font-bold ${
-                                        site.solarNum < 25 ? 'text-amber-400' : 'text-cyan-300'
-                                      }`}
-                                    >
-                                      {site.solar}
-                                    </span>
-                                  </div>
-                                  <div>
-                                    <span className="text-slate-400">ICE: </span>
-                                    <span className="text-emerald-400 font-bold">{site.iceProb}</span>
-                                  </div>
-                                </div>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-
-                      <div className="glass-card rounded-2xl p-4">
-                        <div className="font-mono-tech text-xs text-cyan-300 font-bold mb-2.5">
-                          2. DESCENT GUIDANCE PROFILE
-                        </div>
-                        <div className="grid grid-cols-3 gap-2">
-                          {DESCENT_PROFILES.map((prof) => {
-                            const active = descentProfileId === prof.id;
-                            return (
-                              <button
-                                key={prof.id}
-                                onClick={() => setDescentProfileId(prof.id)}
-                                className={`p-2.5 rounded-xl border text-left transition-all ${
-                                  active
-                                    ? 'bg-cyan-500/20 border-[#00E5FF] text-white'
-                                    : 'bg-[#070B14]/75 border-cyan-500/20 text-slate-400 hover:border-cyan-400/50'
-                                }`}
-                              >
-                                <div className="font-display text-xs font-bold leading-tight">{prof.name}</div>
-                                <div className="font-mono-tech text-[10px] text-cyan-300 mt-1">{prof.fuelBonus}</div>
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-
-                      <button
-                        onClick={() => setAct('act6d')}
-                        className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#00E5FF] to-[#0284C7] text-[#070B14] font-display text-xl font-extrabold tracking-wider shadow-[0_0_24px_rgba(0,229,255,0.45)] hover:brightness-110 transition-all"
-                      >
-                        CONFIRM DESCENT &amp; LAND
-                      </button>
-                    </div>
-                  </div>
-                </section>
-              )}
-
-              {/* ACT 6D: TERMINAL DESCENT */}
-              {act === 'act6d' && (
-                <TerminalDescent3D
-                  platform={selectedPlatform}
-                  structure={selectedStructure}
-                  solar={selectedSolar}
-                  battery={selectedBattery}
-                  antenna={selectedAntenna}
-                  instruments={instrumentIds}
-                  landingSite={selectedLandingSite}
-                  isHardLanding={isHardLanding}
-                  onTouchdownComplete={() => setAct('act7')}
-                />
-              )}
-
-              {/* ACT 7: SURFACE EXPLORATION */}
-              {act === 'act7' && (
-                <SurfaceOps3D
-                  platform={selectedPlatform}
-                  structure={selectedStructure}
-                  solar={selectedSolar}
-                  battery={selectedBattery}
-                  antenna={selectedAntenna}
-                  equippedInstruments={instrumentIds}
-                  landingSite={selectedLandingSite}
-                  onGenerateReport={() => setAct('act8')}
-                />
-              )}
-
-              {/* ACT 8: FINAL MISSION REPORT */}
-              {act === 'act8' && (
-                <section className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
-                  <div className="glass-card-selected rounded-3xl p-6 sm:p-9">
-                    <div className="flex flex-col md:flex-row items-center gap-6 pb-7 border-b border-cyan-500/25">
-                      <div className="w-28 h-28 rounded-2xl bg-gradient-to-br from-cyan-400/25 to-sky-600/20 border-2 border-[#00E5FF] shadow-[0_0_30px_rgba(0,229,255,0.35)] flex flex-col items-center justify-center shrink-0">
-                        <div className="font-mono-tech text-[10px] text-cyan-300">GRADE</div>
-                        <div className="font-display text-6xl font-extrabold text-white leading-none">
-                          {missionEvaluation.grade}
-                        </div>
-                      </div>
-
-                      <div className="text-center md:text-left flex-1">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/15 border border-cyan-400/40 font-mono-tech text-[11px] text-cyan-300 mb-2">
-                          NASA ARTEMIS / CLPS POST-MISSION EVALUATION
-                        </div>
-                        <div className="flex flex-wrap items-baseline justify-center md:justify-start gap-3">
-                          <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-white">
-                            MISSION PERFORMANCE SCORE:
-                          </h2>
-                          <span className="font-mono-tech text-3xl sm:text-4xl font-bold text-[#00E5FF]">
-                            {missionEvaluation.total} / 100
-                          </span>
-                        </div>
-                        <p className="mt-2.5 text-sm text-slate-300 italic leading-relaxed">
-                          &ldquo;{missionEvaluation.chiefQuote}&rdquo;
-                        </p>
-                      </div>
-                    </div>
-
-                    {missionEvaluation.hasCamOnly && (
-                      <div className="mt-6 p-4 rounded-2xl bg-amber-950/45 border border-amber-400/70 flex items-start gap-3.5">
-                        <IconAlertTriangle className="w-6 h-6 text-amber-400 shrink-0 mt-0.5" />
-                        <div>
-                          <div className="font-display text-lg font-bold text-amber-300">
-                            SCIENTIFIC TRUTH ALERT: SURFICIAL HYDROXYL (OH) / OPTICAL GLINT FALSE POSITIVE
-                          </div>
-                          <p className="text-xs text-slate-200 leading-relaxed mt-1">
-                            Your Imaging Camera recorded bright surface reflections near the crater rim, but optical albedo alone cannot distinguish bound <strong className="text-cyan-300">H2O water ice</strong> from solar-wind-implanted <strong className="text-amber-300">OH (hydroxyl)</strong> molecules or specular regolith glint. Equipping a <strong>Spectrometer</strong> and <strong>Lunar Drill</strong> provides definitive hydrogen-neutron &amp; 3.0 μm infrared absorption proof.
-                          </p>
-                        </div>
-                      </div>
-                    )}
-
-                    <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                      {missionEvaluation.breakdown.map((item) => (
-                        <div
-                          key={item.label}
-                          className="p-4 rounded-xl bg-[#070B14]/80 border border-cyan-500/25 flex flex-col justify-between"
-                        >
-                          <div className="flex items-center justify-between gap-2 mb-1.5">
-                            <span className="text-xs font-semibold text-slate-200">{item.label}</span>
-                            <span
-                              className={`font-mono-tech text-sm font-bold ${
-                                item.score >= 85
-                                  ? 'text-emerald-400'
-                                  : item.score >= 70
-                                  ? 'text-cyan-300'
-                                  : 'text-amber-400'
-                              }`}
-                            >
-                              {item.score}%
-                            </span>
-                          </div>
-                          <div className="h-1.5 bg-slate-800 rounded-full overflow-hidden mb-2">
-                            <div
-                              className={`h-full ${
-                                item.score >= 85
-                                  ? 'bg-emerald-400'
-                                  : item.score >= 70
-                                  ? 'bg-cyan-400'
-                                  : 'bg-amber-400'
-                              }`}
-                              style={{ width: `${item.score}%` }}
-                            />
-                          </div>
-                          <div className="font-mono-tech text-[11px] text-slate-400">{item.detail}</div>
-                        </div>
-                      ))}
-                    </div>
-
-                    {showDetailedReport && (
-                      <div className="mt-6 p-5 rounded-2xl bg-[#070B14]/90 border border-cyan-400/40 font-mono-tech text-xs space-y-2 text-slate-300">
-                        <div className="text-cyan-300 font-bold mb-2">
-                          DETAILED TELEMETRY &amp; SPECTRAL DOWNLINK LOG
-                        </div>
-                        <div>• LAUNCH VEHICLE: {selectedRocket.name} (${selectedRocket.costM}M | Cap {selectedRocket.maxPayloadKg} kg)</div>
-                        <div>• LANDED SPACECRAFT: {selectedPlatform.name} ({totalMassKg} kg wet/dry integrated mass)</div>
-                        <div>• ORBITAL RELAY: {selectedOrbit.name} ({selectedOrbit.illumination} | {selectedOrbit.commWindow})</div>
-                        <div>• TARGET SITE: {selectedLandingSite.name} ({selectedLandingSite.coords} | Slope {selectedLandingSite.slope})</div>
-                        <div>
-                          • SPECTRAL ASSAY:{' '}
-                          {missionEvaluation.hasSpec
-                            ? '3.0 μm NIR H2O absorption band + epithermal neutron suppression confirmed (5.4 wt% H2O).'
-                            : 'No NIR/Neutron Spectrometer manifested; volatile assay inferred from camera/drill telemetry.'}
-                        </div>
-                      </div>
-                    )}
-
-                    <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-                      <button
-                        onClick={() => setShowDetailedReport((v) => !v)}
-                        className="px-6 py-3.5 rounded-xl border border-cyan-400/50 hover:border-cyan-300 bg-cyan-500/10 text-cyan-200 font-display text-lg font-bold tracking-wider transition-all"
-                      >
-                        {showDetailedReport ? 'HIDE MISSION REPORT' : 'VIEW MISSION REPORT'}
-                      </button>
-                      <button
-                        onClick={() => setAct('act6a')}
-                        className="px-6 py-3.5 rounded-xl border border-slate-600 hover:border-cyan-400 text-slate-200 font-display text-lg font-bold tracking-wider transition-all"
-                      >
-                        REPLAY MISSION
-                      </button>
-                      <button
-                        onClick={handleNewDesign}
-                        className="px-7 py-3.5 rounded-xl bg-gradient-to-r from-[#00E5FF] to-[#0284C7] text-[#070B14] font-display text-lg font-extrabold tracking-wider shadow-[0_0_24px_rgba(0,229,255,0.4)] hover:brightness-110 transition-all"
-                      >
-                        NEW DESIGN
-                      </button>
-                    </div>
-                  </div>
-                </section>
-              )}
-            </main>
-          </div>
-        );
-      }
-
-      const root = ReactDOM.createRoot(document.getElementById('root'));
-      root.render(<App />);
-    </script>
-  </body>
-</html>
+          const height = container.client
