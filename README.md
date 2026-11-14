@@ -1,4 +1,4 @@
-# 🚀 Space Mission Design Game: Lunar South Pole Water-Ice Explorer
+# 🚀 Space Mission Design Game:
 **2026 NASA Space Apps Challenge — Space Mission Design Game**
 
 > **Experience authentic aerospace system engineering trade-offs:** From launch vehicle selection, six-subsystem spacecraft assembly, and trans-lunar injection to 3D Lunar South Pole landing and spectral data verification—use your engineering judgment to uncover the truth behind lunar water ice.
