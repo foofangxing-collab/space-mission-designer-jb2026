@@ -1,7 +1,7 @@
 # 🚀 Space Mission Design Game:
 **2026 NASA Space Apps Challenge — Space Mission Design Game**
 
-> An interactive space mission design game where players take on the role of a mission designer and plan a spacecraft mission to explore the Moon's South Pole.
+> Space Mission Design Game is an interactive space mission design game where players take on the role of a mission designer and plan a spacecraft mission to explore the Moon's South Pole.
 
 Players make engineering decisions, manage limited resources, select mission equipment, and experience how their choices can influence mission success — while discovering the science behind lunar water ice.
 
@@ -24,6 +24,18 @@ In traditional space science education, learners often encounter isolated concep
 4. Introduce the scientific importance each mission designed.
 5. Make space exploration more accessible and engaging through gameplay.
    
+---
+## 📌 3. Key Features
+
+- Interactive Mission Design: Select mission equipment and configure a spacecraft.
+- Spacecraft Customisation: Explore different spacecraft platforms and subsystems.
+- Resource Management: Balance mission budget, spacecraft mass, power, and other constraints.
+- Mission Planning: Make decisions about launch vehicles, orbits, landing locations, and mission operations.
+- 3D Visualisation: Explore spacecraft and lunar environments through interactive 3D elements.
+- Science Exploration: Learn about our space and the scientific purpose of exploring the space.
+- Mission Evaluation: Review mission performance and understand how design decisions influence the outcome.
+- Science Snippets: Short and interesting science facts appear throughout the gameplay to make learning about lunar exploration more engaging.
+
 ---
 ## ⚖️ 3. Core Engineering Trade-offs
 
