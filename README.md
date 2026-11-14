@@ -13,7 +13,7 @@ Players make engineering decisions, manage limited resources, select mission equ
 
 In traditional space science education, learners often encounter isolated concepts—such as a single orbital equation or rocket thrust formula—without experiencing how **science objectives, engineering constraints, resource budgets, and mission operations** interlock in a real spaceflight program.
 
-**Space Mission Design Game** bridges this gap. Centered on a cutting-edge mission scenario—**"Hunting Lunar Water Ice: South Pole Exploration"**—This is the example mission inside provided in this game. Players take on the role of Chief Mission Designer to balance competing constraints within a finite resource pool[cite: 2]. **There is no single "correct" solution:** whether you pair a cost-effective commercial launcher with a lightweight payload or deploy a heavy-lift rocket carrying high-precision spectrometers, any architecture that survives physics validation and resource limits can reach the lunar south pole.
+**Space Mission Design Game** bridges this gap. Centered on a cutting-edge mission scenario—**"Hunting Lunar Water Ice: South Pole Exploration"**—This is the example mission inside provided in this game. Players take on the role of Chief Mission Designer to balance competing constraints within a finite resource pool. **There is no single "correct" solution:** whether you pair a cost-effective commercial launcher with a lightweight payload or deploy a heavy-lift rocket carrying high-precision spectrometers, any architecture that survives physics validation and resource limits can reach the lunar south pole.
 
 ---
 ## 🎯 2. Project Objectives
@@ -64,12 +64,12 @@ The game guides players through the major 6 stages of a lunar exploration missio
 
 ### 🔹 Stage 3 — Spacecraft Design
 * Designed around **Hick's Law**, players assemble their spacecraft sequentially by selecting six subsystems[cite: 2]. Each step displays only 3–4 high-contrast component cards while dynamically illuminating a live CAD blueprint and telemetry bars (`< 200ms` response):
-  1. `Platform` (Spacecraft Bus)[cite: 2]
-  2. `Structure` (Primary Load-Bearing & Thermal Structure)[cite: 2]
-  3. `Solar Panel` (Photovoltaic Arrays)[cite: 2]
-  4. `Battery` (Deep-Space Energy Storage)[cite: 2]
-  5. `Antenna` (High-Gain Communications)[cite: 2]
-  6. `Scientific Instrument` (Neutron Spectrometer, Near-Infrared Spectrometer, etc.)[cite: 2]
+  1. `Platform` (Spacecraft Bus)
+  2. `Structure` (Primary Load-Bearing & Thermal Structure)
+  3. `Solar Panel` (Photovoltaic Arrays)
+  4. `Battery` (Deep-Space Energy Storage)
+  5. `Antenna` (High-Gain Communications)
+  6. `Scientific Instrument` (Neutron Spectrometer, Near-Infrared Spectrometer, etc.)
 
 Each selection contributes to the spacecraft's overall design and resource requirements.
 
@@ -81,7 +81,7 @@ Experience the mission's journey from launch to the Moon.
 
 * **Dual Pre-Launch Gate**: A final flight-readiness review enforces a hard lock on budget overruns while flagging mass overruns as high-risk launch warnings.
 * **Telemetry Slow-Motion Cutscene**: A full-screen visualization tracks *Liftoff → Trans-Lunar Injection → Lunar Orbit Insertion*, accompanied by a real-time typewriter telemetry log reporting power and thermal status.
-* **3D Lunar South Pole Site Selection & Landing**: Players rotate and zoom a 3D lunar globe to pick a landing site—**Shackleton Crater, Nobile Rim, Cabeus Crater, or Malapert Massif**—and choose a descent profile (Fuel-Saver / Standard / Safety-First), culminating in a 3D PBR landing simulation showing either a nominal touchdown or slope-induced damage[cite: 2].
+* **3D Lunar South Pole Site Selection & Landing**: Players rotate and zoom a 3D lunar globe to pick a landing site—**Shackleton Crater, Nobile Rim, Cabeus Crater, or Malapert Massif**—and choose a descent profile (Fuel-Saver / Standard / Safety-First), culminating in a 3D PBR landing simulation showing either a nominal touchdown or slope-induced damage
 
 ### 🔹 Stage 6 — Lunar Exploration and Mission Results
 Explore the lunar environment, investigate the mission's scientific objectives, and review the final mission performance.
@@ -100,7 +100,7 @@ Explore the lunar environment, investigate the mission's scientific objectives, 
 
 ## 🛰️ 6. NASA Data References & Physics Mapping
 
-All launch vehicle capacities, subsystem power-to-mass ratios, and Lunar South Pole illumination/terrain parameters are calibrated against official NASA mission datasets[cite: 2]:
+All launch vehicle capacities, subsystem power-to-mass ratios, and Lunar South Pole illumination/terrain parameters are calibrated against official NASA mission datasets:
 
 * **Launch Vehicle Performance**: Derived from *NASA Space Launch System (SLS) Fact Sheets* and *NASA Launch Services Program (LSP)* public Trans-Lunar Injection (TLI) payload benchmarks.
 * **Lunar South Pole Topography & Illumination**: Informed by *Lunar Reconnaissance Orbiter (LRO)* **LOLA (Lunar Orbiter Laser Altimeter)** elevation maps and **Diviner Lunar Radiometer Experiment** Permanently Shadowed Region (PSR) thermal data.
