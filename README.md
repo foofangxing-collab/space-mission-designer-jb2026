@@ -110,25 +110,13 @@ All launch vehicle capacities, subsystem power-to-mass ratios, and Lunar South P
 
 ## 🛠️ 7. Tech Stack & Project Structure
 
-* **Frontend**: React, TypeScript, Vite
-* **Styling & Motion**: Tailwind CSS, Framer Motion (`< 200ms` tactile feedback & HUD telemetry transitions)
-* **3D Rendering & Data Visualization**: Three.js (3D Lunar South Pole site selection & descent physics) / Custom SVG & Canvas (dynamic CAD spacecraft blueprint & spectral plots)
+* **HTML**: To structure the web application.
+* **CSS**: To customize the interface, layout, animations, and visual appearance.
+* **JavaScript**: To implement game logic, user interactions, and mission simulations.
+* **React 18**: To build interactive user interface components and manage application states.
+* **Tailwind CSS**: To create responsive layouts and style interface elements.
+* **Three.js**: To create interactive 3D visualizations of rockets, spacecraft, and lunar environments.
+* **Babel Standalone**: To compile JSX directly in the browser.
+* **Visual Studio Code**: For writing and editing the source code.
+* **Git and GitHub**: For version control and source code management
 
-```text
-space-mission-design-game/
-├── public/
-│   └── assets/                # 2D vector planets, 3D lunar textures, and audio cues
-├── src/
-│   ├── components/
-│   │   ├── act0-briefing/     # Act 0: Home HUD & 3-card micro-tutorial modal
-│   │   ├── act1-launcher/     # Act 1: Launch vehicle Coverflow selector
-│   │   ├── act2-assembly/     # Act 2: 6-step subsystem workbench & live CAD blueprint
-│   │   ├── act3-flight/       # Act 3: Dual launch gate, transfer cutscene & 3D landing
-│   │   └── act4-debrief/      # Act 4: Spectral verifier, radar scorecard & debrief
-│   ├── data/
-│   │   └── missionDatabase.ts # Rockets, subsystems, landing sites & NASA citations
-│   ├── engine/
-│   │   └── physicsValidator.ts # Resource coupling & failure root-cause engine
-│   └── styles/
-│       └── tokens.css         # Aerospace Minimalism dark-space & monospace tokens
-└── README.md
