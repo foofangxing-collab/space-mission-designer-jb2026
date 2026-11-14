@@ -1,7 +1,9 @@
 # 🚀 Space Mission Design Game:
 **2026 NASA Space Apps Challenge — Space Mission Design Game**
 
-> **Experience authentic aerospace system engineering trade-offs:** From launch vehicle selection, six-subsystem spacecraft assembly, and trans-lunar injection. This game is currently focus on the Lunar South Pole mission. While design the mission by realize the 3D Lunar South Pole landing and spectral data verification—use your engineering judgment to uncover the truth behind lunar water ice.
+> An interactive space mission design game where players take on the role of a mission designer and plan a spacecraft mission to explore the Moon's South Pole.
+
+Players make engineering decisions, manage limited resources, select mission equipment, and experience how their choices can influence mission success — while discovering the science behind lunar water ice.
 
 [🌐 Live Demo](#) · [🎬 30s Demo Video](#) · [📚 NASA Data References](#-6-nasa-data-references--physics-mapping)
 
@@ -11,11 +13,19 @@
 
 In traditional space science education, learners often encounter isolated concepts—such as a single orbital equation or rocket thrust formula—without experiencing how **science objectives, engineering constraints, resource budgets, and mission operations** interlock in a real spaceflight program.
 
-**Space Mission Design Game** bridges this gap. Centered on a cutting-edge mission scenario—**"Hunting Lunar Water Ice: South Pole Exploration"**—players take on the role of Chief Mission Designer to balance competing constraints within a finite resource pool[cite: 2]. **There is no single "correct" solution:** whether you pair a cost-effective commercial launcher with a lightweight payload or deploy a heavy-lift rocket carrying high-precision spectrometers, any architecture that survives physics validation and resource limits can reach the lunar south pole.
+**Space Mission Design Game** bridges this gap. Centered on a cutting-edge mission scenario—**"Hunting Lunar Water Ice: South Pole Exploration"**—This is the example mission inside provided in this game. Players take on the role of Chief Mission Designer to balance competing constraints within a finite resource pool[cite: 2]. **There is no single "correct" solution:** whether you pair a cost-effective commercial launcher with a lightweight payload or deploy a heavy-lift rocket carrying high-precision spectrometers, any architecture that survives physics validation and resource limits can reach the lunar south pole.
 
 ---
+## 🎯 2. Project Objectives
 
-## ⚖️ 2. Core Engineering Trade-offs
+1. Introduce beginners to the fundamentals of space mission design.
+2. Demonstrate the relationship between spacecraft components and mission resources.
+3. Encourage engineering decision-making through interactive challenges.
+4. Introduce the scientific importance each mission designed.
+5. Make space exploration more accessible and engaging through gameplay.
+   
+---
+## ⚖️ 3. Core Engineering Trade-offs
 
 Every design choice triggers cascading system-wide consequences. The simulation models **six interconnected resource constraints** grounded in NASA mission engineering principles:
 
@@ -30,9 +40,9 @@ Every design choice triggers cascading system-wide consequences. The simulation 
 
 ---
 
-## 🎮 3. Gameplay Loop: 5-Act Architecture
+## 🎮 3. How to Play
 
-To clearly distinguish **active player engineering decisions** from **automated physics simulations** and **cinematic telemetry transitions**[cite: 1], the game is structured into five progressive acts:
+To clearly distinguish **active player engineering decisions** from **automated physics simulations** and **cinematic telemetry transitions**[cite: 1], the game is structured into five progressive stages:
 
 ### 🔹 Act 0: Home HUD & Mission Briefing
 * **Aerospace Minimalism HUD**: Deep-space canvas (`#060913`) paired with a 2D vector Moon featuring a South Pole glow and industrial uppercase typography.
