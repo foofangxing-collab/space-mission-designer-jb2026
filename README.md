@@ -1,7 +1,7 @@
 # 🚀 Space Mission Design Game:
 **2026 NASA Space Apps Challenge — Space Mission Design Game**
 
-> **Experience authentic aerospace system engineering trade-offs:** From launch vehicle selection, six-subsystem spacecraft assembly, and trans-lunar injection to 3D Lunar South Pole landing and spectral data verification—use your engineering judgment to uncover the truth behind lunar water ice.
+> **Experience authentic aerospace system engineering trade-offs:** From launch vehicle selection, six-subsystem spacecraft assembly, and trans-lunar injection. This game is currently focus on the Lunar South Pole mission. While design the mission by realize the 3D Lunar South Pole landing and spectral data verification—use your engineering judgment to uncover the truth behind lunar water ice.
 
 [🌐 Live Demo](#) · [🎬 30s Demo Video](#) · [📚 NASA Data References](#-6-nasa-data-references--physics-mapping)
 
