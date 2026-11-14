@@ -27,14 +27,14 @@ In traditional space science education, learners often encounter isolated concep
 ---
 ## 📌 3. Key Features
 
-- Interactive Mission Design: Select mission equipment and configure a spacecraft.
-- Spacecraft Customisation: Explore different spacecraft platforms and subsystems.
-- Resource Management: Balance mission budget, spacecraft mass, power, and other constraints.
-- Mission Planning: Make decisions about launch vehicles, orbits, landing locations, and mission operations.
-- 3D Visualisation: Explore spacecraft and lunar environments through interactive 3D elements.
-- Science Exploration: Learn about our space and the scientific purpose of exploring the space.
-- Mission Evaluation: Review mission performance and understand how design decisions influence the outcome.
-- Science Snippets: Short and interesting science facts appear throughout the gameplay to make learning about lunar exploration more engaging.
+- **Interactive Mission Design**: Select mission equipment and configure a spacecraft.
+- **Spacecraft Customisation**: Explore different spacecraft platforms and subsystems.
+- **Resource Management**: Balance mission budget, spacecraft mass, power, and other constraints.
+- **Mission Planning**: Make decisions about launch vehicles, orbits, landing locations, and mission operations.
+- **3D Visualisation**: Explore spacecraft and lunar environments through interactive 3D elements.
+- **Science Exploration**: Learn about our space and the scientific purpose of exploring the space.
+- **Mission Evaluation**: Review mission performance and understand how design decisions influence the outcome.
+- **Science Snippets**: Short and interesting science facts appear throughout the gameplay to make learning about lunar exploration more engaging.
 
 ---
 ## ⚖️ 3. Core Engineering Trade-offs
