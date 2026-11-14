@@ -61,17 +61,7 @@ To clearly distinguish **active player engineering decisions** from **automated 
 
 ---
 
-## 🤝 4. Single-Player & 4-Player Co-op Mode
-
-Aligned with the challenge's collaborative design goals, the game supports both **solo play** and **up to 4-player team coordination** across specialized engineering roles:
-1. **Mission Planner**: Manages overall mission budget, science priorities, and final launch authorization.
-2. **Spacecraft & Power Engineer**: Optimizes bus, structure, solar arrays, and batteries for mass and power equilibrium.
-3. **Comms & Orbit Specialist**: Configures orbital trajectories, antenna gain, and South Pole landing site selection.
-4. **Payload & Science Lead**: Selects scientific instruments and leads final spectral signature verification.
-
----
-
-## 🎨 5. UI/UX Design Philosophy
+## 🎨 4. UI/UX Design Philosophy
 
 * **Aerospace Minimalism**: Maintains **45%–55% clean negative space** to prevent cognitive overload and evoke an authentic mission control console.
 * **Tabular Monospace Telemetry**: All dynamic budget, mass, and power readouts use monospace tabular numerals (`JetBrains Mono`) to eliminate layout jitter during live updates.
@@ -79,7 +69,7 @@ Aligned with the challenge's collaborative design goals, the game supports both 
 
 ---
 
-## 🛰️ 6. NASA Data References & Physics Mapping
+## 🛰️ 5. NASA Data References & Physics Mapping
 
 All launch vehicle capacities, subsystem power-to-mass ratios, and Lunar South Pole illumination/terrain parameters are calibrated against official NASA mission datasets[cite: 2]:
 
@@ -89,7 +79,7 @@ All launch vehicle capacities, subsystem power-to-mass ratios, and Lunar South P
 
 ---
 
-## 🛠️ 7. Tech Stack & Project Structure
+## 🛠️ 6. Tech Stack & Project Structure
 
 * **Frontend**: React, TypeScript, Vite
 * **Styling & Motion**: Tailwind CSS, Framer Motion (`< 200ms` tactile feedback & HUD telemetry transitions)
