@@ -52,19 +52,18 @@ Every design choice triggers cascading system-wide consequences. The simulation 
 
 ---
 
-## 🎮 3. How to Play
+## 🎮 4. How to Play
 
-To clearly distinguish **active player engineering decisions** from **automated physics simulations** and **cinematic telemetry transitions**[cite: 1], the game is structured into five progressive stages:
+The game guides players through the major 6 stages of a lunar exploration mission. 
 
-### 🔹 Act 0: Home HUD & Mission Briefing
-* **Aerospace Minimalism HUD**: Deep-space canvas (`#060913`) paired with a 2D vector Moon featuring a South Pole glow and industrial uppercase typography.
-* **5-Minute Onboarding**: A horizontal mission carousel introduces the scenario alongside a **≤120-word "3-Card Micro-Tutorial (How to Play)"** that explains the water-ice objective, core resource trade-offs, and the "false-positive trap."
+### 🔹 Stage 1 — Mission Briefing
+* Understand the mission objectives, the lunar South Pole environment, and the importance of investigating water ice.
 
-### 🔹 Act 1: Launch Vehicle Selection
-* Players compare real-world launch vehicles (such as *Falcon 9*, *Vulcan Centaur*, and *SLS Block 1*) via an interactive Coverflow selector, weighing **Trans-Lunar Injection (TLI) payload capacity** against **launch cost** to establish the mission's physical envelope[cite: 2].
+### 🔹 Stage 2 — Launch Vehicle Selection
+* Compare available launch vehicles and consider their payload capabilities and mission costs..
 
-### 🔹 Act 2: Six-Step Modular Spacecraft Assembly
-* Designed around **Hick's Law**, players assemble their spacecraft sequentially across six subsystems[cite: 2]. Each step displays only 3–4 high-contrast component cards while dynamically illuminating a live CAD blueprint and telemetry bars (`< 200ms` response):
+### 🔹 Stage 3 — Spacecraft Design
+* Designed around **Hick's Law**, players assemble their spacecraft sequentially by selecting six subsystems[cite: 2]. Each step displays only 3–4 high-contrast component cards while dynamically illuminating a live CAD blueprint and telemetry bars (`< 200ms` response):
   1. `Platform` (Spacecraft Bus)[cite: 2]
   2. `Structure` (Primary Load-Bearing & Thermal Structure)[cite: 2]
   3. `Solar Panel` (Photovoltaic Arrays)[cite: 2]
@@ -72,18 +71,26 @@ To clearly distinguish **active player engineering decisions** from **automated 
   5. `Antenna` (High-Gain Communications)[cite: 2]
   6. `Scientific Instrument` (Neutron Spectrometer, Near-Infrared Spectrometer, etc.)[cite: 2]
 
-### 🔹 Act 3: Launch, Transfer & Interactive 3D South Pole Landing
+Each selection contributes to the spacecraft's overall design and resource requirements.
+
+### 🔹 Stage 4 — Mission Planning
+* Choose an appropriate orbit and allocate resources before the mission begins. Review the spacecraft configuration and identify potential design constraints.
+
+### 🔹 Stage 5 - Launch, Transfer & Interactive 3D South Pole Landing
+Experience the mission's journey from launch to the Moon.
+
 * **Dual Pre-Launch Gate**: A final flight-readiness review enforces a hard lock on budget overruns while flagging mass overruns as high-risk launch warnings.
 * **Telemetry Slow-Motion Cutscene**: A full-screen visualization tracks *Liftoff → Trans-Lunar Injection → Lunar Orbit Insertion*, accompanied by a real-time typewriter telemetry log reporting power and thermal status.
 * **3D Lunar South Pole Site Selection & Landing**: Players rotate and zoom a 3D lunar globe to pick a landing site—**Shackleton Crater, Nobile Rim, Cabeus Crater, or Malapert Massif**—and choose a descent profile (Fuel-Saver / Standard / Safety-First), culminating in a 3D PBR landing simulation showing either a nominal touchdown or slope-induced damage[cite: 2].
 
-### 🔹 Act 4: Spectral Data Verification & Engineering Debrief
-* **Solving the "False-Positive Trap"**: Players inspect downlinked spectral and neutron count plots to distinguish **true subsurface water ice** from **surface hydroxyl ($\text{OH}$) interference**.
+### 🔹 Stage 6 — Lunar Exploration and Mission Results
+Explore the lunar environment, investigate the mission's scientific objectives, and review the final mission performance.
+
 * **Multi-Dimensional Scorecard & Zero-Penalty Iteration**: Generates a 5-axis capability radar chart with transparent physical failure/success attribution, allowing players to **jump directly back to any assembly step** to refine their design and relaunch.
 
 ---
 
-## 🎨 4. UI/UX Design Philosophy
+## 🎨 5. UI/UX Design Philosophy
 
 * **Aerospace Minimalism**: Maintains **45%–55% clean negative space** to prevent cognitive overload and evoke an authentic mission control console.
 * **Tabular Monospace Telemetry**: All dynamic budget, mass, and power readouts use monospace tabular numerals (`JetBrains Mono`) to eliminate layout jitter during live updates.
@@ -91,7 +98,7 @@ To clearly distinguish **active player engineering decisions** from **automated 
 
 ---
 
-## 🛰️ 5. NASA Data References & Physics Mapping
+## 🛰️ 6. NASA Data References & Physics Mapping
 
 All launch vehicle capacities, subsystem power-to-mass ratios, and Lunar South Pole illumination/terrain parameters are calibrated against official NASA mission datasets[cite: 2]:
 
@@ -101,7 +108,7 @@ All launch vehicle capacities, subsystem power-to-mass ratios, and Lunar South P
 
 ---
 
-## 🛠️ 6. Tech Stack & Project Structure
+## 🛠️ 7. Tech Stack & Project Structure
 
 * **Frontend**: React, TypeScript, Vite
 * **Styling & Motion**: Tailwind CSS, Framer Motion (`< 200ms` tactile feedback & HUD telemetry transitions)
